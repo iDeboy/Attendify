@@ -1,0 +1,104 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.header {
+    background-color: #87C9A1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header h1{
+    color: #393737;
+}
+
+.header .welcome h1 {
+    color: #393737;
+    font-size: 20px;
+}
+
+.header .user-info {
+    display: flex;
+    align-items: center;
+}
+
+.header .user-info .profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Barra lateral */
+.sidebar {
+    width: 250px;
+    background-color: #87C9A1;
+    color: #393737;
+    padding: 20px;
+}
+
+.sidebar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin: 15px 0;
+}
+
+.sidebar nav ul li a {
+    color: #393737;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.sidebar nav ul li a.active {
+    font-weight: bold;
+}
+
+/* Contenido principal */
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+
+/* Tarjetas */
+.content {
+    display: flex;
+    gap: 20px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    flex: 1;
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.card p {
+    color: #666;
+    margin: 10px 0 0;
+}
