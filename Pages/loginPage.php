@@ -1,4 +1,4 @@
-<body>
+
     <div class="login-container">
         <div class="image-section">
             <img src="/pagina/img/login1.jpg" alt="Classroom Image">
@@ -20,4 +20,3 @@
             </form>
         </div>
     </div>
-</body>
