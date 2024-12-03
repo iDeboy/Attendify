@@ -1,0 +1,141 @@
+/* General */
+body {
+    margin: 0;
+    display: flex;
+    height: 100vh;
+    color: #333;
+    width: 100%;
+}
+
+.container {
+    height: calc(100vh - 60px);
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 60px;
+}
+
+/* Header */
+.header {
+    background-color: #87C9A1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 60px;   
+     /* Para que siempre quede en la parte superior */    
+}
+
+.header h1{
+    color: #393737;
+}
+
+.header .user-info {
+    display: flex;
+    align-items: center;
+}
+
+.profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #A0D6B4;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar h1 {
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.sidebar ul li a.active,
+.sidebar ul li a:hover {
+    background-color: #87C9A1;
+    color: #fff;
+}
+
+/* Main content */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    display: flex; /* Añadir flex para centrar la tarjeta */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    width: 100%; /* Abarcar todo el ancho */
+}
+
+/* Ajustar la tarjeta de información */
+.info-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 50%; /* Ajustar el ancho de la tarjeta */
+    max-width: 600px; /* Límite para pantallas más grandes */
+    justify-content: center;
+}
+
+.info-card h2 {
+    margin-bottom: 20px;
+    color: #333;
+    
+}
+
+.info-content {
+    display: flex;
+    align-items: center;
+}
+
+.info-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.info-text p {
+    margin: 5px 0;
+}
+
+.edit-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #A0D6B4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+    background-color: #87C9A1;
+}

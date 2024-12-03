@@ -1,0 +1,113 @@
+/* General */
+body {
+    margin: 0;
+    font-family: Roboto, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #529D71;
+}
+
+.header {
+    background: linear-gradient(to right, #6FCF97, #CDE8D8); /* Fondo verde degradado */
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    margin-bottom: 3rem;
+    overflow: hidden; /* Para asegurar que no haya desbordamiento */
+    position: relative;
+  }
+
+  .header-title {
+    position: absolute; /* Ubicación absoluta dentro del contenedor */
+    top: 20px; /* Ajusta la distancia desde la parte superior */
+    left: 20px;
+    color: #393737;
+    font-size: 40px;
+    font-weight: 600;
+    width: auto;
+    font-weight: bold;
+    margin: 0;
+    padding-left: 10px; /* Separa el texto del borde izquierdo */
+    flex-grow: 1;
+  }
+
+/* Contenedor Principal */
+.container {
+    display: flex;
+    width: 70%;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Sección de Imagen */
+.image-section {
+    flex: 1;
+    background-color: #e6f2e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-section img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Formulario */
+.form-container {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 2em;
+    color: #3d7255;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #3d7255;
+    font-weight: bold;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+/* Botón */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3d7255;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background-color: #2b4e3c;
+}
