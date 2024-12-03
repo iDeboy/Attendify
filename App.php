@@ -7,6 +7,7 @@
     <!-- <base href="/" /> -->
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
+    <link rel='stylesheet' href="assets/css/Attendify.css">
     <?php foreach ($Styles as $key => $style): ?>
         <link rel='stylesheet' href="<?php echo $style; ?>">
     <?php endforeach; ?>
