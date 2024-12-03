@@ -1,0 +1,26 @@
+
+RewriteEngine on
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+Header set Content-Security-Policy "default-src 'self'; script-src 'self' ; style-src 'self' 'unsafe-inline'; img-src *;"
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteRule ^(.*)$ index.php [L,QSA]
+
+<FilesMatch "\.php$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+<Files "index.php">
+    Order Allow,Deny
+    Allow from all
+</Files>
+
+
+
+
