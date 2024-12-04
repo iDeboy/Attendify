@@ -6,12 +6,12 @@ namespace Controllers;
 
 use Abstractions\Renderer;
 
-class PruebasController {
+class LoginController {
 
     public function __construct(private readonly Renderer $renderer) {
     }
 
     public function index() {
-        echo $this->renderer->view('Pages/PruebasPage.php');
+        echo $this->renderer->view('Pages/LoginPage.php', styles: ['assets/css/style.css']);
     }
 }
