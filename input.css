@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  * {
+    @apply font-roboto;
+  }
+}
+
+@layer components {
+  .login-container {
+    @apply flex w-3/4 bg-white rounded-lg shadow-lg;
+  }
+
+  .image-section {
+    @apply flex flex-1 bg-[#e6f2e8] justify-center items-center overflow-hidden rounded-ss-lg rounded-es-lg;
+  }
+
+  .image-section img {
+    @apply w-full h-auto object-cover;
+  }
+
+  .login-section {
+    @apply flex-1 p-10 flex flex-col justify-center;
+  }
+
+  .header {
+    @apply bg-gradient-to-r from-[#6fcf97] to-[#cde8d8] h-20 flex items-center pl-5 mb-12 overflow-hidden relative;
+  }
+}

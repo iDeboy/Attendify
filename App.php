@@ -7,12 +7,15 @@
     <!-- <base href="/" /> -->
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
-    <link rel='stylesheet' href="assets/css/Attendify.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap">
+
     <?php foreach ($Styles as $key => $style): ?>
         <link rel='stylesheet' href="<?php echo $style; ?>">
     <?php endforeach; ?>
 
-    <title>Sistema de Asistencia a clases</title>
+    <!-- <link rel='stylesheet' href="assets/css/Attendify.css"> -->
+
+    <title>Attendify</title>
 
 </head>
 

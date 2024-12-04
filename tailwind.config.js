@@ -2,6 +2,9 @@
 module.exports = {
   content: ["./**/*.{html,js,php}"],
   theme: {
+    fontFamily: {
+      'roboto': ['Roboto']
+    },
     extend: {},
   },
   plugins: [],
