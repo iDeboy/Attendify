@@ -6,6 +6,7 @@ require_once 'autoload.php';
 
 use Abstractions\Host;
 use Abstractions\Router;
+use Controllers\LoginController;
 use Controllers\PruebasController;
 
 require_once 'Core/functions.php';
@@ -15,6 +16,7 @@ $host = Host::get_current();
 
 $router = $host->services->get_required_service(Router::class);
 $router->get('/pruebas', [PruebasController::class, 'index']);
+$router->get('/login', [LoginController::class, 'index']);
 
 $url = parse_url(htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8'));
 $uri = $url['path'];

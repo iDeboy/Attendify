@@ -1,3 +1,76 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.contenedor-principal {
+    @apply w-full h-screen bg-H_519d71;
+}
+
+/* LOGIN */
+.contenedor-login {
+    @apply flex justify-center items-center min-h-screen;
+}
+
+.elementos-login{
+    @apply flex w-[950px] h-[650px] bg-gray-200 shadow-lg p-0 gap-0;
+}
+
+.elementos-izq {
+    @apply w-[450px] h-[650px] bg-red-200 p-0;
+}
+
+.img-class {
+    @apply w-[450px] h-[650px] object-cover grayscale transition;
+}
+
+.elementos-der {
+    @apply w-[500px] h-[650px] p-0 flex flex-col gap-0;
+}
+
+.tituloApp {
+    @apply h-[80px] bg-H_6FCF97 p-0 flex items-center;
+}
+
+.cuadroAdorn {
+    @apply w-[80px] h-[80px] bg-H_CCE8D8 ml-auto;
+}
+
+.login {
+    @apply h-[570px] overflow-y-scroll bg-white pt-10 px-16;
+}
+
+.contenedor_texto {
+    @apply pb-1 flex focus-within:border-H_A7E08E;
+}
+
+/* TEXTO */
+.nombreApp {
+    @apply ml-10 text-[35px] font-extrabold font-roboto text-H_393737;
+}
+
+h1 {
+    @apply text-3xl font-normal font-roboto text-H_393737;
+}
+
+.texto {
+    @apply font-normal font-roboto;
+}
+
+/* ICONOS */
+.icon {
+    @apply w-[28px] h-[28px] p-0;
+}
+
+/* CAJAS DE TEXTO */
+.caja_login {
+    @apply w-full pl-2 text-H_393737 text-[18px] focus:outline-none;
+}
+
+.caja_registro {
+    @apply w-full pl-2 text-[16px] focus:outline-none bg-H_F2F5F0 shadow-inner h-[40px] text-H_4B4848;
+}
+
+/* BOTON */
+.boton {
+    @apply w-full items-center justify-center p-3 bg-H_A7E08E text-H_393737 font-normal font-roboto;
+}
