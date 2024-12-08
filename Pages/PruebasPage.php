@@ -66,7 +66,7 @@
 
           </div>
 
-          <!-- vista registro -->
+          <!-- vista registro-->
           <div class="login pb-10">
 
             <h1>Registro</h1>
@@ -76,7 +76,7 @@
 
               <p class="texto mt-10 text-[16px] text-H_393737">Identificación</p>
 
-              <!-- guardar identificación -->
+              <!--  guardar identificación -->
               <input type="text"
                 placeholder=""
                 class="caja_registro">
@@ -90,7 +90,7 @@
 
               <p class="texto mt-5 text-[16px] text-H_393737">Apellidos</p>
 
-              <!-- guardar apellidos -->
+              <!--  guardar apellidos -->
               <input type="text"
                 placeholder=""
                 class="caja_registro">
@@ -104,7 +104,7 @@
 
               <p class="texto mt-5 text-[16px] text-H_393737">Contraseña</p>
 
-              <!-- guardar contraseña -->
+              <!--  guardar contraseña -->
               <input type="password"
                 placeholder=""
                 class="caja_registro">
@@ -118,7 +118,7 @@
 
               <p class="texto mt-5 text-[16px] text-H_393737">Confirmar Contraseña</p>
 
-              <!-- guardar confirmación de contraseña -->
+             <!--  guardar confirmación de contraseña -->
               <input type="password"
                 placeholder=""
                 class="caja_registro">
@@ -131,7 +131,7 @@
 
               <p class="texto mt-4 text-[16px] text-H_393737">Teléfono</p>
 
-              <!-- guardar teléfono -->
+              <!-- guardar teléfono--> 
               <input type="tel"
                 placeholder=""
                 class="caja_registro">
