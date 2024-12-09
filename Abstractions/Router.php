@@ -12,10 +12,13 @@ require_once 'Core/functions.php';
 class Router {
 
     private array $routes = [];
+    private readonly string $postfix;
 
     public function __construct(
         private readonly IServiceProvider $provider
     ) {
+        $file = basename($_SERVER['SCRIPT_NAME']);
+        $this->postfix = str_replace("/$file", '', $_SERVER['SCRIPT_NAME']);
     }
 
     public function add(string $method, string $uri, array $controller) {
@@ -25,7 +28,7 @@ class Router {
         }
 
         $this->routes[strtoupper($method)][] = [
-            'uri' => $uri,
+            'uri' => "$this->postfix$uri",
             'controller' => $controller
         ];
 
