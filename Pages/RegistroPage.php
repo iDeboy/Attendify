@@ -6,7 +6,7 @@
 
       <div class="elementos-izq">
 
-        <img class="img-class" src="../assets/img/recurso-login.svg" alt="class">
+        <img class="img-class" src="assets/img/recurso-login.svg" alt="class">
 
       </div>
 
@@ -20,15 +20,16 @@
         </div>
 
         <!-- vista registro -->
-        <div class="login pb-10">
+        <div class="pb-10 login">
 
           <h1>Registro</h1>
           <div class="w-[60px] h-[2px] bg-H_38813B mt-1 mb-10"></div>
 
           <!-- Cambiar el como se identificara el usuario, para el alumno es su No. Control y el docente es No. Identificación -->
-          <?php echo render_template("Components/SeleccionAlumnoMaestro.php") ?>
 
-          <form action="" method="post">
+          <form action="registro" method="post">
+            
+            <?php echo render_template("Components/SeleccionAlumnoMaestro.php") ?>
 
             <p class="texto mt-8 text-[16px] text-H_393737">Identificación</p>
 

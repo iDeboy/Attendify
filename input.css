@@ -20,7 +20,7 @@
 }
 
 .elementos-izq {
-    @apply w-[450px] h-[650px] bg-red-200 p-0;
+    @apply w-[450px] h-[650px] bg-red-200 p-0 select-none;
 }
 
 .img-class {
@@ -40,7 +40,7 @@
 }
 
 .login {
-    @apply h-[570px] overflow-y-scroll bg-white pt-10 px-16;
+    @apply h-[570px] overflow-y-auto bg-white pt-10 px-16;
 }
 
 .contenedor_texto {
@@ -62,7 +62,7 @@ h1 {
 
 /* ICONOS */
 .icon {
-    @apply w-[28px] h-[28px] p-0;
+    @apply w-[28px] h-[28px] p-0 select-none;
 }
 
 /* CAJAS DE TEXTO */
@@ -76,7 +76,7 @@ h1 {
 
 /* BOTON */
 .boton {
-    @apply w-full items-center justify-center p-3 bg-H_A7E08E text-H_393737 font-normal font-roboto;
+    @apply w-full items-center justify-center p-3 bg-H_A7E08E text-H_393737 font-normal font-roboto select-none uppercase;
 }
 
 /* SELECCIÓN ALUMNO O MAESTRO */

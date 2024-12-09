@@ -6,7 +6,7 @@
 
       <div class="elementos-izq">
 
-        <img class="img-class" src="../assets/img/recurso-login.svg" alt="class">
+        <img class="img-class" src="assets/img/recurso-login.svg" alt="class">
 
       </div>
 
@@ -23,13 +23,15 @@
         <div class="login">
 
           <h1>Acceso</h1>
-          <div class="w-[60px] h-[2px] bg-H_38813B mt-1"></div>
+          <div class="w-[60px] h-[2px] bg-H_38813B mt-1 mb-10"></div>
 
-          <form action="" method="post">
+          <form action="login" method="post">
 
-            <div class="contenedor_texto mt-20 border-b-2 border-gray-400">
+            <?php echo render_template("Components/SeleccionAlumnoMaestro.php") ?>
 
-              <img class="icon" src="../assets/img/email.svg" alt="email">
+            <div class="mt-12 border-b-2 border-gray-400 contenedor_texto">
+
+              <img class="icon" src="assets/img/email.svg" alt="email">
 
               <!-- ingresar correo electronico -->
               <input type="text"
@@ -38,9 +40,9 @@
 
             </div>
 
-            <div class="contenedor_texto mt-8 border-b-2 border-gray-400">
+            <div class="mt-8 border-b-2 border-gray-400 contenedor_texto">
 
-              <img class="icon" src="../assets/img/psswd.svg" alt="password">
+              <img class="icon" src="assets/img/psswd.svg" alt="password">
 
               <!-- ingresar contraseña -->
               <input type="password"
@@ -53,11 +55,11 @@
             <?php echo render_template("Components/Checkbox.php", ["Texto" => "Mostrar Contraseña"]) ?>
 
             <!-- boton de iniciar sesión -->
-            <button type="submit" class="boton mt-20">INICIAR SESIÓN</button>
+            <button type="submit" class="mt-20 boton">INICIAR SESIÓN</button>
 
             <p class="texto mt-2 text-[16px] text-H_393737">¿No tienes una cuenta?
               <!-- vinvulo para mandar al registro -->
-              <a href="#" class="text-H_A7E08E hover:text-H_618762 texto">Regístrate</a>
+              <a href="registro" class="text-H_A7E08E hover:text-H_618762 texto">Regístrate</a>
             </p>
 
           </form>
