@@ -4,7 +4,7 @@
 <head>
 
     <meta charset='utf-8'>
-    <!-- <base href="/" /> -->
+     <!-- <base href="/" /> -->
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap">
@@ -13,7 +13,7 @@
         <link rel='stylesheet' href="<?php echo $style; ?>">
     <?php endforeach; ?>
 
-    <!-- <link rel='stylesheet' href="assets/css/Attendify.css"> -->
+    <link rel='stylesheet' href="assets/css/Attendify.css">
 
     <title>Attendify</title>
 
