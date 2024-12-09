@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+    @apply font-roboto;
+}
+
 .contenedor-principal {
     @apply w-full h-screen bg-H_519d71;
 }
@@ -45,15 +49,15 @@
 
 /* TEXTO */
 .nombreApp {
-    @apply ml-10 text-[35px] font-extrabold font-roboto text-H_393737;
+    @apply ml-10 text-[35px] font-extrabold text-H_393737;
 }
 
 h1 {
-    @apply text-3xl font-normal font-roboto text-H_393737;
+    @apply text-3xl font-normal text-H_393737;
 }
 
 .texto {
-    @apply font-normal font-roboto;
+    @apply font-normal;
 }
 
 /* ICONOS */
@@ -73,4 +77,25 @@ h1 {
 /* BOTON */
 .boton {
     @apply w-full items-center justify-center p-3 bg-H_A7E08E text-H_393737 font-normal font-roboto;
+}
+
+/* SELECCIÓN ALUMNO O MAESTRO */
+.radio-inputs {
+    @apply relative flex flex-wrap box-border p-1 text-sm bg-H_F2F5F0 shadow w-full select-none;
+}
+
+.radio-inputs .radio {
+    @apply flex-1 text-center;
+}
+
+.radio-inputs .radio input {
+    @apply hidden;
+}
+
+.radio-inputs .radio .name {
+    @apply flex cursor-pointer items-center justify-center border-0 py-2 px-0 text-H_393737 transition-all ease-in-out;
+}
+
+.radio-inputs .radio input:checked + .name {
+    @apply bg-H_CCE8D8 font-semibold;
 }
