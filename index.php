@@ -8,6 +8,7 @@ use Abstractions\Host;
 use Abstractions\Router;
 use Controllers\LoginController;
 use Controllers\PruebasController;
+use Controllers\RegistroController;
 
 require_once 'Core/functions.php';
 require_once 'program.php';
@@ -17,6 +18,9 @@ $host = Host::get_current();
 $router = $host->services->get_required_service(Router::class);
 $router->get('/pruebas', [PruebasController::class, 'index']);
 $router->get('/login', [LoginController::class, 'index']);
+$router->get('/registro', [RegistroController::class, 'index']);  
+$router->post('/login', [LoginController::class, 'post']);
+$router->post('/registro', [RegistroController::class, 'post']);  
 
 $url = parse_url(htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8'));
 $uri = $url['path'];
