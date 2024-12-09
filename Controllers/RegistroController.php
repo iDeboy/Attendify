@@ -6,16 +6,16 @@ namespace Controllers;
 
 use Abstractions\Renderer;
 
-class LoginController {
+class RegistroController {
 
     public function __construct(private readonly Renderer $renderer) {
     }
 
     public function index() {
-        echo $this->renderer->view('Pages/LoginPage.php');
+        echo $this->renderer->view('Pages/RegistroPage.php');
     }
 
     public function post() {
-        echo "Apretaste el boton de iniciar sesion!";
+        echo "Apretaste el boton de registrar!";
     }
 }
