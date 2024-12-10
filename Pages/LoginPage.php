@@ -29,14 +29,21 @@
 
             <?php echo render_template("Components/SeleccionAlumnoMaestro.php") ?>
 
-            <div class="mt-12 border-b-2 border-gray-400 contenedor_texto">
+            <div class="invisible mt-8"></div>
+
+            <?php if (isset($Error)): ?>
+              <span class="mb-2 inline-block text-red-400 text-xs"><?= $Error ?></span>
+            <?php endif; ?>
+            
+            <div class="border-b-2 border-gray-400 contenedor_texto">
 
               <img class="icon" src="assets/img/email.svg" alt="email">
 
               <!-- ingresar correo electronico -->
-              <input type="text"
+              <input type="email"
+                name="correo"
                 placeholder="CORREO ELECTRONICO"
-                class="caja_login">
+                class="caja_login" required>
 
             </div>
 
@@ -46,8 +53,9 @@
 
               <!-- ingresar contraseña -->
               <input type="password"
+                name="password"
                 placeholder="CONTRASEÑA"
-                class="caja_login">
+                class="caja_login" required>
 
             </div>
 
@@ -55,7 +63,7 @@
             <?php echo render_template("Components/Checkbox.php", ["Texto" => "Mostrar Contraseña"]) ?>
 
             <!-- boton de iniciar sesión -->
-            <button type="submit" class="mt-20 boton">INICIAR SESIÓN</button>
+            <button type="submit" class="mt-14 boton">INICIAR SESIÓN</button>
 
             <p class="texto mt-2 text-[16px] text-H_393737">¿No tienes una cuenta?
               <!-- vinvulo para mandar al registro -->
