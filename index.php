@@ -19,8 +19,8 @@ $router = $host->services->get_required_service(Router::class);
 $router->get('/pruebas', [PruebasController::class, 'index']);
 $router->get('/login', [LoginController::class, 'index']);
 $router->get('/registro', [RegistroController::class, 'index']);  
-$router->post('/login', [LoginController::class, 'post']);
-$router->post('/registro', [RegistroController::class, 'post']);  
+$router->post('/login', [LoginController::class, 'login']);
+$router->post('/registro', [RegistroController::class, 'registro']);  
 
 $url = parse_url(htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8'));
 $uri = $url['path'];

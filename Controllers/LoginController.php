@@ -15,7 +15,8 @@ class LoginController {
         echo $this->renderer->view('Pages/LoginPage.php');
     }
 
-    public function post() {
+    public function login() {
         echo "Apretaste el boton de iniciar sesion!";
+        d($_POST);
     }
 }

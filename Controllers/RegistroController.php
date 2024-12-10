@@ -12,10 +12,11 @@ class RegistroController {
     }
 
     public function index() {
-        echo $this->renderer->view('Pages/RegistroPage.php');
+        echo $this->renderer->view('Pages/RegistroPage.php', scripts: ['assets/js/registro.js']);
     }
 
-    public function post() {
+    public function registro() {
         echo "Apretaste el boton de registrar!";
+        d($_POST);
     }
 }
