@@ -48,9 +48,13 @@
     @apply pb-1 flex focus-within:border-H_A7E08E;
 }
 
+.encabezado {
+    @apply bg-H_95C8AA p-2 flex justify-between items-center;
+}
+
 /* TEXTO */
 .nombreApp {
-    @apply ml-10 text-[35px] font-extrabold text-H_393737;
+    @apply ml-10 text-[35px] font-extrabold text-H_393737 select-none;
 }
 
 h1 {
@@ -61,9 +65,17 @@ h1 {
     @apply font-normal;
 }
 
+.contenedor-usuario {
+    @apply flex items-center space-x-4 pl-4;
+}
+
 /* ICONOS */
 .icon {
     @apply w-[28px] h-[28px] p-0 select-none;
+}
+
+.usuario {
+    @apply text-[20px] text-H_455B3C select-none;
 }
 
 /* CAJAS DE TEXTO */
@@ -78,6 +90,10 @@ h1 {
 /* BOTON */
 .boton {
     @apply w-full items-center justify-center p-3 bg-H_A7E08E text-H_393737 font-normal font-roboto select-none uppercase;
+}
+
+.transicion {
+    @apply text-gray-700 hover:text-H_618762 focus:bg-H_95C8AA focus:text-white rounded-md p-2 select-none;
 }
 
 /* SELECCIÓN ALUMNO O MAESTRO */
