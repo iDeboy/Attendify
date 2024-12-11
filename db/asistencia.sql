@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Asistencia (
   id_asistencia INT(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   fechaAsistencia DATETIME NOT NULL DEFAULT NOW(),
   ipRegistro VARCHAR(45) DEFAULT NULL,
-  estado ENUM('presente','ausente') NOT NULL DEFAULT 'presente',
+  estado ENUM('Presente','Ausente') NOT NULL DEFAULT 'Presente',
 
   id_materia INT(11) NOT NULL,
   noControlAlum VARCHAR(20) NOT NULL,
@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS Asistencia (
 CREATE TABLE IF NOT EXISTS AlumnosGrupos (
   id_grupo INT(11) NOT NULL,
   noControlAlum VARCHAR(20) NOT NULL,
+  estado ENUM('Pendiente','Aceptado', 'Rechazado') NOT NULL DEFAULT 'Pendiente',
 
   PRIMARY KEY (id_grupo, noControlAlum),
   FOREIGN KEY (id_grupo) REFERENCES Grupo(id_grupo) ON DELETE CASCADE ON UPDATE CASCADE,
