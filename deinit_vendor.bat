@@ -13,4 +13,3 @@ for /r "%PROJECT_DIR%\vendor" %%d in (.git .github) do (
 )
 
 echo Las carpetas .git y .github han sido eliminadas de vendor.
-pause
