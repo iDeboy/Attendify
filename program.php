@@ -17,8 +17,9 @@ $builder->services
     ->add_singleton(Router::class)
     ->add_transient(DbContext::class, function (): DbContext {
 
+        // TODO: credenciales en .env
         if (strcmp($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed')  === 0)
-            return new DbContext('auth-db1212.hstgr.io', 'u117281852_w24021001', 'Honorio2401$', 'u117281852_w24021001');
+            return new DbContext('auth-db1212.hstgr.io', 'u117281852_w24021001', 'Honorio2401$', 'u117281852_w24021001'); 
         else
             return new DbContext('localhost', 'root', '', 'asistencia');
     })
