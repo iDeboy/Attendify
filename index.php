@@ -13,6 +13,8 @@ use Controllers\RegistroController;
 require_once 'Core/functions.php';
 require_once 'program.php';
 
+session_start();
+
 $host = Host::get_current();
 
 $router = $host->services->get_required_service(Router::class);

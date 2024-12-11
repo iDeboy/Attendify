@@ -6,7 +6,7 @@ declare(strict_types=1);
 function dd($value) {
 
     d($value);
-    
+
     die();
 }
 
@@ -35,4 +35,24 @@ function render_template(string $template, array $data = []) {
     }
 
     return $content;
+}
+
+function validarCorreo(string $correo): string|false {
+    $correo = trim($correo);
+
+    if (strlen($correo) > 100) return false;
+
+    $regex = "/^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$/";
+
+    if (!preg_match($regex, $correo)) return false;
+
+    return $correo;
+}
+
+function validarPassword(string $password, string $confirmPassword): string|false {
+    if (empty($password) || empty($confirmPassword)) return false;
+
+    if (strcmp($password, $confirmPassword) !== 0) return false;
+
+    return $password;
 }
