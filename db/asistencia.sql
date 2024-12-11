@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS Alumno (
 
 CREATE UNIQUE INDEX idx_correo_alumno ON Alumno(correoAlum);
 
-CREATE TABLE IF NOT EXISTS Docente (
+CREATE TABLE IF NOT EXISTS Profesor (
   rfc VARCHAR(13) PRIMARY KEY NOT NULL,
   nombre VARCHAR(50) NOT NULL,
   apellidos VARCHAR(50) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Docente (
   passwordHash VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE UNIQUE INDEX idx_correo_docente ON Docente(correoProf);
+CREATE UNIQUE INDEX idx_correo_profesor ON Profesor(correoProf);
 
 CREATE TABLE IF NOT EXISTS Materia (
   id_materia INT(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS ProfesorGrupos (
 
   PRIMARY KEY (id_grupo, rfcProf),
   FOREIGN KEY (id_grupo) REFERENCES Grupo(id_grupo) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (rfcProf) REFERENCES Docente(rfc) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (rfcProf) REFERENCES Profesor(rfc) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS TemasGrupoMateria (
