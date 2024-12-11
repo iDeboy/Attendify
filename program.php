@@ -9,19 +9,23 @@ use Abstractions\Router;
 use Controllers\LoginController;
 use Controllers\PruebasController;
 use Controllers\RegistroController;
+use Dotenv\Dotenv;
 
 $builder = HostBuilder::default_builder();
+
+Dotenv::createImmutable(__DIR__)->load();
 
 $builder->services
     ->add_singleton(Renderer::class, fn(): Renderer => new Renderer('App.php'))
     ->add_singleton(Router::class)
     ->add_transient(DbContext::class, function (): DbContext {
 
-        // TODO: credenciales en .env
-        if (strcmp($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed')  === 0)
-            return new DbContext('auth-db1212.hstgr.io', 'u117281852_w24021001', 'Honorio2401$', 'u117281852_w24021001'); 
-        else
-            return new DbContext('localhost', 'root', '', 'asistencia');
+        $hostname = $_ENV['DBHOST'];
+        $username = $_ENV['DBUSERNAME'];
+        $password = $_ENV['DBPASSWORD'];
+        $database = $_ENV['DBNAME'];
+
+        return new DbContext($hostname, $username, $password, $database);
     })
     ->add_transient(PruebasController::class)
     ->add_transient(LoginController::class)

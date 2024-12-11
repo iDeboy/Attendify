@@ -1,1 +1,10 @@
+##### Composer
+vendor/**/.git
+vendor/**/.github
+composer.lock
+
+##### Tailwindcss
 tailwind*.exe
+
+##### Attendify
+.env
