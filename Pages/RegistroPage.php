@@ -34,7 +34,7 @@
             <div class="invisible mt-8"></div>
 
             <?php if (isset($Errors)): ?>
-              <ul class="pl-3.5 mb-2 list-disc text-red-400 text-xs">
+              <ul class="flex flex-col gap-2 pl-3.5 mb-2 list-disc text-red-400 text-xs">
                 <?php foreach ($Errors as $key => $error): ?>
                   <li><?php echo $error ?></li>
                 <?php endforeach; ?>
@@ -44,22 +44,22 @@
             <p id="textoId" class="texto text-[16px] text-H_393737">No. Control</p>
 
             <!-- guardar identificación -->
-            <input type="text" class="caja_registro" name="id" required>
+            <input type="text" class="caja_registro" name="id" required maxlength="20" >
 
             <p class="texto mt-5 text-[16px] text-H_393737">Nombres</p>
 
             <!-- guardar nombres -->
-            <input type="text" class="caja_registro" name="nombres" required>
+            <input type="text" class="caja_registro" name="nombres" required maxlength="50" minlength="3">
 
             <p class="texto mt-5 text-[16px] text-H_393737">Apellidos</p>
 
             <!-- guardar apellidos -->
-            <input type="text" class="caja_registro" name="apellidos" required>
+            <input type="text" class="caja_registro" name="apellidos" required maxlength="50" minlength="3">
 
             <p class="texto mt-5 text-[16px] text-H_393737">Correo Electrónico</p>
 
             <!-- guardar email -->
-            <input type="email" class="caja_registro" name="correo" required>
+            <input type="email" class="caja_registro" name="correo" required maxlength="100">
 
             <p class="texto mt-5 text-[16px] text-H_393737">Contraseña</p>
 
@@ -72,7 +72,7 @@
             <p class="texto mt-5 text-[16px] text-H_393737">Confirmar Contraseña</p>
 
             <!-- guardar confirmación de contraseña -->
-            <input type="password" class="caja_registro" name="passwordConfirm" required>
+            <input type="password" class="caja_registro" name="confirmPassword" required>
 
             <!-- Sección donde se confirma si su contraseña es correcta o incorrecta -->
             <?php if (isset($Error)): ?>
@@ -87,7 +87,7 @@
             <p class="texto mt-4 text-[16px] text-H_393737">Teléfono</p>
 
             <!-- guardar teléfono -->
-            <input type="tel" class="caja_registro" name="telefono" required>
+            <input type="tel" class="caja_registro" name="telefono" required maxlength="15">
 
 
             <!-- boton de registrar -->

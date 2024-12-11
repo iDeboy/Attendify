@@ -4,6 +4,7 @@
 
 *{
     @apply font-roboto;
+    scrollbar-width: thin;
 }
 
 .contenedor-principal {
