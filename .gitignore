@@ -7,3 +7,4 @@ tailwind*.exe
 
 ##### Attendify
 .env
+.env.production
