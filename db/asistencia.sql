@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS Asistencia (
 CREATE TABLE IF NOT EXISTS AlumnosGrupos (
   id_grupo INT(11) NOT NULL,
   noControlAlum VARCHAR(20) NOT NULL,
-  estado ENUM('Pendiente','Aceptado', 'Rechazado') NOT NULL DEFAULT 'Pendiente',
+  estado ENUM('Pendiente', 'Aceptado', 'Rechazado') NOT NULL DEFAULT 'Pendiente',
 
   PRIMARY KEY (id_grupo, noControlAlum),
   FOREIGN KEY (id_grupo) REFERENCES Grupo(id_grupo) ON DELETE CASCADE ON UPDATE CASCADE,
