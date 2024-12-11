@@ -115,6 +115,6 @@ class Router {
     private function abort($status = 404) {
         http_response_code($status);
 
-        echo "Not Found";
+        echo "No existe esta página (Esto significa que funciona el .htaccess)";
     }
 }
