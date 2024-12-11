@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once 'autoload.php';
+require_once 'vendor/autoload.php';
 
 use Abstractions\Host;
 use Abstractions\Router;

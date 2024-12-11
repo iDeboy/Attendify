@@ -1,1 +1,9 @@
+##### Composer
+/vendor
+composer.lock
+
+##### Tailwindcss
 tailwind*.exe
+
+##### Attendify
+.env
