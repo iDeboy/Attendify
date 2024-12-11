@@ -17,5 +17,15 @@
     "optimize-autoloader": true,
     "preferred-install": "dist"
   },
-  "scripts": {}
+  "scripts": {
+    "post-install-cmd": [
+      "call deinit_vendor.bat"
+    ],
+    "post-update-cmd": [
+      "call deinit_vendor.bat"
+    ],
+    "post-require-cmd": [
+      "call deinit_vendor.bat"
+    ]
+  }
 }

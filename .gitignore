@@ -1,6 +1,5 @@
 ##### Composer
-vendor/**/.git
-vendor/**/.github
+vendor/
 composer.lock
 
 ##### Tailwindcss
