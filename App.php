@@ -9,7 +9,8 @@
 
     <title>Attendify</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
 
 
     <?php foreach ($Styles as $key => $style): ?>
