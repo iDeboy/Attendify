@@ -22,6 +22,8 @@ final class Renderer {
         if (!$layout) $body = $content;
         else $body = render_template($layout, ['Body' => $content]);
 
-        return render_template($this->app, ['Body' => $body, 'Styles' => $styles, 'Scripts' => $scripts]);
+        $base = get_site();
+
+        return render_template($this->app, ['Base' => $base, 'Body' => $body, 'Styles' => $styles, 'Scripts' => $scripts]);
     }
 }
