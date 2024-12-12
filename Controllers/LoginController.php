@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Controllers;
 
+use Abstractions\DbContext;
 use Abstractions\Renderer;
 
 class LoginController {
 
-    public function __construct(private readonly Renderer $renderer) {
+    public function __construct(
+        private readonly Renderer $renderer,
+        private readonly DbContext $db
+    ) {
     }
 
     public function index() {
@@ -29,7 +33,7 @@ class LoginController {
             goto end;
         }
 
-        $passwordHash = ""; //$usuario->passwordHash;
+        $passwordHash = $usuario->passwordHash;
         if (!$this->verificarPassword($_POST['password'], $passwordHash)) {
             $error = 'Credenciales inválidas. Por favor, intente nuevamente.';
             goto end;
@@ -49,8 +53,8 @@ class LoginController {
 
         echo "Inicio de sesión exitoso";
 
-        // TODO: Crear $_SESSION['Logeado'] = true; para inicio de sesión persistente
-        // TODO: Crear $_SESSION['Usuario'] con todos los campos de la tabla $tipoUsuario
+        $_SESSION['Logeado'] = true;
+        $_SESSION['Usuario'] = $usuario;
 
         header('Location: /');
     }
@@ -68,11 +72,20 @@ class LoginController {
 
         $correo = validarCorreo($correo);
 
-        // TODO: Ver no si no existe el correo en la base de datos
-        // TODO: Obtener toda la tabla de $tipoUsuario y retornarla
-        // TODO: Regresar el RFC o NoControl como Id
+        if (strcmp($tipoUsuario, 'Alumno') === 0)
+            $sql = "SELECT 'Alumno' AS tipo, noControl AS id, nombre, apellidos, telefono, correoAlum AS correo, passwordHash 
+                    FROM Alumno 
+                    WHERE correoAlum = ?;";
+        else
+            $sql = "SELECT 'Profesor' AS tipo, rfc AS id, nombre, apellidos, telefono, correoProf As correo, passwordHash
+                    FROM Profesor 
+                    WHERE correoProf = ?;";
 
-        return (object)$correo;
+        $result = $this->db->query($sql, [$correo]);
+
+        if (!$result || empty($result)) return false;
+
+        return $result[0];
     }
 
     private function verificarPassword(string $password, string $passwordHash): bool {

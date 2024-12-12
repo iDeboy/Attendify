@@ -6,9 +6,13 @@ require_once 'vendor/autoload.php';
 
 use Abstractions\Host;
 use Abstractions\Router;
+use Controllers\AlumnoController;
+use Controllers\DefaultController;
 use Controllers\LoginController;
+use Controllers\ProfesorController;
 use Controllers\PruebasController;
 use Controllers\RegistroController;
+use Dotenv\Dotenv;
 
 require_once 'Core/functions.php';
 require_once 'program.php';
@@ -17,12 +21,27 @@ session_start();
 
 $host = Host::get_current();
 
+$env = $host->services->get_required_service(Dotenv::class);
+$env->load();
+
 $router = $host->services->get_required_service(Router::class);
+
+$router->get('/', [DefaultController::class, 'index']);
+
 $router->get('/pruebas', [PruebasController::class, 'index']);
 $router->get('/login', [LoginController::class, 'index']);
-$router->get('/registro', [RegistroController::class, 'index']);  
+$router->get('/registro', [RegistroController::class, 'index']);
+$router->get('/alumno', [AlumnoController::class, 'principal']);
+$router->get('/profesor', [ProfesorController::class, 'principal']);
+
+$router->get('/alumno/grupos-inscrito', [AlumnoController::class, 'grupos_inscrito']);
+$router->get('/alumno/grupos', [AlumnoController::class, 'grupos_disponibles']);    
+$router->get('/alumno/grupos/{grupoId}', [AlumnoController::class, 'grupo']);
+
+$router->get('/profesor/grupos', [ProfesorController::class, 'grupos_creados']);
+
 $router->post('/login', [LoginController::class, 'login']);
-$router->post('/registro', [RegistroController::class, 'registro']);  
+$router->post('/registro', [RegistroController::class, 'registro']);
 
 $url = parse_url(htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8'));
 $uri = $url['path'];

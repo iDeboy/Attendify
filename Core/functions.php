@@ -37,6 +37,35 @@ function render_template(string $template, array $data = []) {
     return $content;
 }
 
+function needs_login(string $loginKey, string $loginPath): bool {
+
+    if (isset($_SESSION[$loginKey])) {
+        if (!$_SESSION[$loginKey]) {
+            header("Location: $loginPath");
+            return true;
+        }
+    } else {
+        header("Location: $loginPath");
+        return true;
+    }
+
+    return false;
+}
+
+function is_user_auth(string $loginKey): bool {
+
+    if (isset($_SESSION[$loginKey])) {
+        if ($_SESSION[$loginKey]) return true;
+    }
+
+    return false;
+}
+
+function get_site(): string {
+    $dir = dirname($_SERVER['SCRIPT_NAME']);
+    return rtrim($dir, '/\\');
+}
+
 function validarCorreo(string $correo): string|false {
     $correo = trim($correo);
 
