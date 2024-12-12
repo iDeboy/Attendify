@@ -116,3 +116,15 @@ h1 {
 .radio-inputs .radio input:checked + .name {
     @apply bg-H_CCE8D8 font-semibold;
 }
+
+.marcar {
+    @apply h-10 p-1 rounded cursor-pointer bg-white select-none w-fit min-w-[100px] border-[2.5px] border-[#DAE5E0] shadow-md transition-all ease-in-out;
+}
+
+.marcar:hover {
+    @apply bg-[#EBF3F0] shadow-md;
+}
+
+.marcar:active {
+    @apply transform scale-0
+}

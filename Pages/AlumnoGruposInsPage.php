@@ -2,7 +2,7 @@
     <div class="p-0 max-w-4xl mx-auto bg-H_EBF3F0 rounded-md shadow-md mb-4">
         <div class="flex items-center justify-center p-5">
             <div class="w-full rounded-lg p-1">
-                <!-- Buscador - Se podra buscar un grupo por su nombre {{Grupo.nombreGrupo}}, solamente deben aparecer los grupos donde el alumno no este inscrito o que lo tenga pendiente, es decir, solo apareceran los disponibles a inscribir. -->
+                <!-- Buscador - Se podra buscar un grupo por su nombre {{Grupo.nombreGrupo}}, aparecen los grupos en los que el alumno se encuentra inscrito. -->
                 <div class="flex">
                     <div class="flex w-10 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-white p-1">
                         <span class="mdi mdi-magnify text-xl text-H_393737 pointer-events-none"></span>
@@ -25,7 +25,7 @@
 
     <div class="bg-H_DAE5E0 p-4 rounded-md shadow mb-6">
 
-        <h2 class="text-H_393737 font-semibold text-xl mb-4">Grupos disponibles</h2>
+        <h2 class="text-H_393737 font-semibold text-xl mb-4">Mis Grupos</h2>
 
         <div class="h-[280px] overflow-y-auto p-1">
             <!-- Muestra de como se representa el grupo -->
@@ -37,15 +37,15 @@
                         <span class=" text-H_393737">Impartido por: {{Profesor.nombre}}</span>
                     </div>
                     <div class="flex items-center">
-                        <!-- Boton para que el alumno mande la solicitud de inscripción -->
+                        <!-- Boton para ingresar al grupo | mandarlo a la vista del grupo -->
                         <button
                             class="bg-[#DAE5E0] text-center w-44 h-10 relative text-H_393737 group select-none"
                             type="button">
                             <div
-                                class="bg-[#779688] h-8 w-1/4 flex items-center justify-center absolute right-1 top-[4px] group-hover:w-[168px] z-10 duration-500">
-                                <span class="mdi mdi-plus text-xl text-white"></span>
+                                class="bg-[#779688] h-8 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[168px] z-10 duration-500">
+                                <span class="mdi mdi-arrow-right-thick text-xl text-white"></span>
                             </div>
-                            <p class="translate-x-2 mr-10">Inscribirse</p>
+                            <p class="translate-x-2 ml-10">Ingresar</p>
                         </button>
                     </div>
                 </div>
