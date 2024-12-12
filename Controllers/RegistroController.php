@@ -67,7 +67,7 @@ class RegistroController {
 
         if (count($errors) !== 0) {
 
-            header('Location: /registro', response_code: 400);
+            header('Location: registro', response_code: 400);
             echo $this->renderer->view(
                 'Pages/RegistroPage.php',
                 ['Errors' => $errors],
@@ -81,7 +81,7 @@ class RegistroController {
             "ssssss",
             [$id, $nombres, $apellidos, $telefono, $correo, password_hash($password, PASSWORD_BCRYPT)]
         )) {
-            header('Location: /registro', response_code: 500);
+            header('Location: registro', response_code: 500);
             echo $this->renderer->view(
                 'Pages/RegistroPage.php',
                 ['Errors' => ["No se pudo registrar el $tipoUsuario. Por favor, inténtalo más tarde."]],

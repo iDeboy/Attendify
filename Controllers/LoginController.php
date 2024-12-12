@@ -45,7 +45,7 @@ class LoginController {
         end:
         if ($error !== null) {
 
-            header('Location: /registro', response_code: 400);
+            header('Location: registro', response_code: 400);
             echo $this->renderer->view(
                 'Pages/LoginPage.php',
                 ['Error' => $error]
