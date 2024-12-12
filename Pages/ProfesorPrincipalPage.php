@@ -1,19 +1,19 @@
-<div class="p-6 max-w-4xl mx-auto bg-H_EBF3F0 rounded-md shadow-md mb-4 animate-fade-in">
-    <h2 class="text-H_393737 font-semibold text-xl">Bienvenid@ {{Profesor.nombre}}, ¡Que tengas un excelente día!</h2>
+<div class="max-w-4xl p-6 mx-auto mb-4 rounded-md shadow-md bg-H_EBF3F0 animate-fade-in">
+    <h2 class="text-xl font-semibold text-H_393737">Bienvenid@ <?= $Profesor->nombre ?>, ¡Que tengas un excelente día!</h2>
 </div>
 
-<div class="p-6 max-w-4xl mx-auto bg-H_EBF3F0 rounded-md shadow-md animate-fade-in">
+<div class="max-w-4xl p-6 mx-auto rounded-md shadow-md bg-H_EBF3F0 animate-fade-in">
 
     <!-- Solicitudes enviadas | En esta sección se mostraran los grupos que tengan solicitudes pendientes-->
-    <div class="bg-H_DAE5E0 p-4 rounded-md shadow">
+    <div class="p-4 rounded-md shadow bg-H_DAE5E0">
 
-        <h2 class="text-H_393737 font-semibold text-xl mb-4">Solicitudes enviadas</h2>
+        <h2 class="mb-4 text-xl font-semibold text-H_393737">Solicitudes enviadas</h2>
 
         <div class="h-[150px] overflow-y-auto p-1">
             <!-- Recuadro de grupo -->
-            <div class="bg-white p-4 rounded-md shadow-md flex justify-between items-center mb-2">
+            <div class="flex items-center justify-between p-4 mb-2 bg-white rounded-md shadow-md">
                 <div class="flex items-center">
-                    <span class="mdi mdi-account-group text-xl mr-2 text-H_393737"></span>
+                    <span class="mr-2 text-xl mdi mdi-account-group text-H_393737"></span>
                     <!-- Mostrar el numero de solicitudes de ingreso -->
                     <span class=" text-H_393737">{{Grupo.nombreGrupo}} | {{Materia.nombreMateria}} : {{Numero de solicitudes}}</span>
                 </div>

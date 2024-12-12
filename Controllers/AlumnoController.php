@@ -12,19 +12,46 @@ class AlumnoController {
     }
 
     public function principal() {
-        echo $this->renderer->view('Pages/AlumnoPrincipalPage.php', layout: 'Layouts/AlumnoLayout.php');
+
+        if (needs_login('Logeado', 'login')) return;
+
+        echo $this->renderer->view(
+            'Pages/AlumnoPrincipalPage.php',
+            ['Alumno' => $_SESSION['Usuario']],
+            layout: 'Layouts/AlumnoLayout.php'
+        );
     }
 
     public function grupo(string $grupoId) {
-        echo $this->renderer->view('Pages/AlumnoGrupoPage.php', layout: 'Layouts/AlumnoLayout.php');
+
+        if (needs_login('Logeado', 'login')) return;
+
+        echo $this->renderer->view(
+            'Pages/AlumnoGrupoPage.php',
+            ['Alumno' => $_SESSION['Usuario']],
+            layout: 'Layouts/AlumnoLayout.php'
+        );
     }
 
     public function grupos_disponibles() {
-        echo $this->renderer->view('Pages/AlumnoGruposDispPage.php', layout: 'Layouts/AlumnoLayout.php');
+
+        if (needs_login('Logeado', 'login')) return;
+
+        echo $this->renderer->view(
+            'Pages/AlumnoGruposDispPage.php',
+            ['Alumno' => $_SESSION['Usuario']],
+            layout: 'Layouts/AlumnoLayout.php'
+        );
     }
 
     public function grupos_inscrito() {
-        echo $this->renderer->view('Pages/AlumnoGruposInsPage.php', layout: 'Layouts/AlumnoLayout.php');
-    }
 
+        if (needs_login('Logeado', 'login')) return;
+
+        echo $this->renderer->view(
+            'Pages/AlumnoGruposInsPage.php',
+            ['Alumno' => $_SESSION['Usuario']],
+            layout: 'Layouts/AlumnoLayout.php'
+        );
+    }
 }

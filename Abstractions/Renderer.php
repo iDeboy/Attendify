@@ -17,10 +17,8 @@ final class Renderer {
 
         $content = render_template($view, $data);
 
-        $layout ??= $data['layout'] ?? null;
-
         if (!$layout) $body = $content;
-        else $body = render_template($layout, ['Body' => $content]);
+        else $body = render_template($layout, array_merge(['Body' => $content], $data));
 
         $base = get_site();
 

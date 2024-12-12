@@ -3,7 +3,7 @@
     <header class="encabezado">
         <p class="nombreApp">Attendify</p>
         <div class="contenedor-usuario">
-            <p class="texto select-none text-[18px]">{{Profesor.nombre}}{{Profesor.apellidos}}</p>
+            <p class="texto select-none text-[18px]"><?= "$Profesor->nombre $Profesor->apellidos" ?></p>
             <span class="mdi mdi-account-school usuario"></span>
         </div>
     </header>
@@ -11,31 +11,33 @@
     <!-- Línea de separación -->
     <div class="w-full h-[4px] bg-H_618762"></div>
 
-    <div class="flex bg-H_E7EBE9 w-full h-screen p-0">
+    <div class="flex w-full h-screen p-0 bg-H_E7EBE9">
         <!-- Primer div: 1/4 del ancho -->
         <div class="w-[240px] bg-H_95C8AA p-4 flex-shrink-0">
             <!-- Contenido del primer div -->
 
-            <div class="bg-H_DAE5E0 w-64 p-4 rounded-md shadow-md">
+            <div class="w-64 p-4 rounded-md shadow-md bg-H_DAE5E0">
                 <!-- Menú principal -->
                 <nav class="space-y-2">
                     <!-- Ir a la vista principal del docente -->
-                    <a href="#" class="block transicion text-[18px]">
+                    <a href="profesor" class="block transicion text-[18px]">
                         <span class="mdi mdi-home mr-2 select-none text-[20px]"></span>
                         Inicio
                     </a>
 
                     <!-- Ir a la vista de grupos | grupos que tiene creados -->
-                    <a href="#" class="block transicion text-[18px]">
+                    <a href="profesor/grupos" class="block transicion text-[18px]">
                         <span class="mdi mdi-account-group mr-2 select-none text-[20px]"></span>
                         Grupos
                     </a>
 
                     <!-- Regresar al apartado de iniciar sesión -->
-                    <a href="#" class="block transicion text-[18px]">
-                        <span class="mdi mdi-exit-to-app mr-2 select-none text-[20px]"></span>
-                        Cerrar Cesión
-                    </a>
+                    <form action="logout" method="post">
+                        <button type="submit" class="block transicion text-[18px] w-full text-start">
+                            <span class="mdi mdi-exit-to-app mr-2 select-none text-[20px]"></span>
+                            Cerrar Cesión
+                        </button>
+                    </form>
                 </nav>
             </div>
 
