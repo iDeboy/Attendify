@@ -11,18 +11,29 @@
 
         <div class="h-[150px] overflow-y-auto p-1">
             <!-- Recuadro de grupo -->
-            <div class="flex items-center justify-between p-4 mb-2 bg-white rounded-md shadow-md">
-                <div class="flex items-center">
-                    <span class="mr-2 text-xl mdi mdi-account-group text-H_393737"></span>
-                    <!-- Mostrar el numero de solicitudes de ingreso -->
-                    <span class=" text-H_393737">{{Grupo.nombreGrupo}} | {{Materia.nombreMateria}} : {{Numero de solicitudes}}</span>
+
+            <?php if (count($Solicitudes) !== 0): ?>
+
+                <?php foreach ($Solicitudes as $key => $solicitud): ?>
+
+                    <div class="flex items-center justify-between p-4 mb-2 bg-white rounded-md shadow-md">
+                        <div class="flex items-center">
+                            <span class="mr-2 text-xl mdi mdi-account-group text-H_393737"></span>
+                            <!-- Mostrar el numero de solicitudes de ingreso -->
+                            <span class=" text-H_393737"><?= "$solicitud->codigo_grupo | $solicitud->nombreGrupo : $solicitud->numeroSolicitudes" ?></span>
+                        </div>
+                    </div>
+                    
+                <?php endforeach; ?>
+
+            <?php else: ?>
+                <!-- Mostrar lo siguiente cuando no hay grupos | lleva flex -->
+                <div class="items-center justify-center h-[130px] flex">
+                    <span class="mdi mdi-account-group text-xl text-[#8da99d] mr-2"></span>
+                    <p class=" font-extrabold text-[#8da99d] text-xl">No tiene grupos que mostrar</p>
                 </div>
-            </div>
-            <!-- Mostrar lo siguiente cuando no hay grupos | lleva flex -->
-            <div class="items-center justify-center h-[130px] hidden">
-                <span class="mdi mdi-account-group text-xl text-[#8da99d] mr-2"></span>
-                <p class=" font-extrabold text-[#8da99d] text-xl">No tiene grupos que mostrar</p>
-            </div>
+
+            <?php endif; ?>
         </div>
     </div>
 
