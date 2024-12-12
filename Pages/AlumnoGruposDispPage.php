@@ -1,5 +1,4 @@
 <div class="p-0 max-w-4xl mx-auto bg-H_EBF3F0 rounded-md shadow-md mb-4 animate-fade-in">
-    <div class="p-0 max-w-4xl mx-auto bg-H_EBF3F0 rounded-md shadow-md mb-4">
         <div class="flex items-center justify-center p-5">
             <div class="w-full rounded-lg p-1">
                 <!-- Buscador - Se podra buscar un grupo por su nombre {{Grupo.nombreGrupo}}, solamente deben aparecer los grupos donde el alumno no este inscrito o que lo tenga pendiente, es decir, solo apareceran los disponibles a inscribir. -->
@@ -18,7 +17,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
 
 <div class="p-6 max-w-4xl mx-auto bg-H_EBF3F0 rounded-md shadow-md animate-fade-in">
