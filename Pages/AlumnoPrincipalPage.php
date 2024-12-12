@@ -1,5 +1,5 @@
 <div class="p-6 max-w-4xl mx-auto bg-H_EBF3F0 rounded-md shadow-md mb-4 animate-fade-in">
-    <h2 class="text-H_393737 font-semibold text-xl">Bienvenid@ {{Alumno.nombre}}{{Alumno.apellidos}}, ¡Hoy es un gran día para aprender!</h2>
+    <h2 class="text-H_393737 font-semibold text-xl">Bienvenid@ {{Alumno.nombre}}, ¡Hoy es un gran día para aprender!</h2>
 </div>
 
 <div class="p-6 max-w-4xl mx-auto bg-H_EBF3F0 rounded-md shadow-md animate-fade-in">
