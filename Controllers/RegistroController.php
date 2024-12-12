@@ -16,6 +16,9 @@ class RegistroController {
     }
 
     public function index() {
+
+        if (is_user_auth('Logeado')) return header('Location: .');
+
         echo $this->renderer->view('Pages/RegistroPage.php', scripts: ['assets/js/registro.js']);
     }
 
@@ -64,7 +67,7 @@ class RegistroController {
 
         if (count($errors) !== 0) {
 
-            header('Location: /registro', response_code: 400);
+            header('Location: registro', response_code: 400);
             echo $this->renderer->view(
                 'Pages/RegistroPage.php',
                 ['Errors' => $errors],
@@ -73,13 +76,27 @@ class RegistroController {
             return;
         }
 
-        header('Location: /login');
+        if (!$this->db->execute(
+            "INSERT INTO $tipoUsuario VALUES(?,?,?,?,?,?);",
+            "ssssss",
+            [$id, $nombres, $apellidos, $telefono, $correo, password_hash($password, PASSWORD_BCRYPT)]
+        )) {
+            header('Location: registro', response_code: 500);
+            echo $this->renderer->view(
+                'Pages/RegistroPage.php',
+                ['Errors' => ["No se pudo registrar el $tipoUsuario. Por favor, inténtalo más tarde."]],
+                scripts: ['assets/js/registro.js']
+            );
+            return;
+        }
+
+        header('Location: login');
     }
 
     private function validarUsuario(string $tipoUsuario): string|false {
         if (
             strcmp($tipoUsuario, 'Alumno') === 0 ||
-            strcmp($tipoUsuario, 'Docente') === 0
+            strcmp($tipoUsuario, 'Profesor') === 0
         ) return $tipoUsuario;
 
         return false;
@@ -94,7 +111,14 @@ class RegistroController {
 
         if (!preg_match($regex, $id)) return false;
 
-        // TODO: Ver no si no existe el id en la base de datos
+        if (strcmp($tipoUsuario, 'Alumno') === 0)
+            $sql = "SELECT noControl FROM Alumno WHERE noControl = ?;";
+        else
+            $sql = "SELECT rfc FROM Profesor WHERE rfc = ?;";
+
+        $result = $this->db->query($sql, [$id]);
+
+        if (!empty($result)) return false;
 
         return $id;
     }
@@ -125,7 +149,14 @@ class RegistroController {
 
         $correo = validarCorreo($correo);
 
-        // TODO: Ver no si no existe el correo en la base de datos
+        if (strcmp($tipoUsuario, 'Alumno') === 0)
+            $sql = "SELECT correoAlum FROM Alumno WHERE correoAlum = ?;";
+        else
+            $sql = "SELECT correoProf FROM Profesor WHERE correoProf = ?;";
+
+        $result = $this->db->query($sql, [$correo]);
+
+        if (!empty($result)) return false;
 
         return $correo;
     }

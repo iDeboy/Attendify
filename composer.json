@@ -1,0 +1,31 @@
+{
+  "name": "ideboy/attendify",
+  "type": "project",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Core\\": "Core/",
+      "DependencyInjection\\": "DependencyInjection/",
+      "Abstractions\\": "Abstractions/",
+      "Controllers\\": "Controllers/"
+    }
+  },
+  "require": {
+    "vlucas/phpdotenv": "^5.6"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "call deinit_vendor.bat"
+    ],
+    "post-update-cmd": [
+      "call deinit_vendor.bat"
+    ],
+    "post-require-cmd": [
+      "call deinit_vendor.bat"
+    ]
+  }
+}

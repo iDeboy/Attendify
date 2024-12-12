@@ -4,14 +4,13 @@
 <head>
 
     <meta charset='utf-8'>
-    <!-- <base href="/" /> -->
+    <base href="<?= $Base ?>/" />
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <title>Attendify</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
 
     <?php foreach ($Styles as $key => $style): ?>
         <link rel='stylesheet' href="<?php echo $style; ?>">
@@ -28,7 +27,6 @@
 <body>
 
     <?= $Body; ?>
-
 
 </body>
 

@@ -17,8 +17,7 @@ class Router {
     public function __construct(
         private readonly IServiceProvider $provider
     ) {
-        $file = basename($_SERVER['SCRIPT_NAME']);
-        $this->postfix = str_replace("/$file", '', $_SERVER['SCRIPT_NAME']);
+        $this->postfix = get_site();
     }
 
     public function add(string $method, string $uri, array $controller) {
@@ -115,6 +114,6 @@ class Router {
     private function abort($status = 404) {
         http_response_code($status);
 
-        echo "Not Found";
+        echo "No existe esta página (Esto significa que funciona el .htaccess)";
     }
 }

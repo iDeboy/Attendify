@@ -17,11 +17,11 @@ final class Renderer {
 
         $content = render_template($view, $data);
 
-        $layout ??= $data['layout'] ?? null;
-
         if (!$layout) $body = $content;
-        else $body = render_template($layout, ['Body' => $content]);
+        else $body = render_template($layout, array_merge(['Body' => $content], $data));
 
-        return render_template($this->app, ['Body' => $body, 'Styles' => $styles, 'Scripts' => $scripts]);
+        $base = get_site();
+
+        return render_template($this->app, ['Base' => $base, 'Body' => $body, 'Styles' => $styles, 'Scripts' => $scripts]);
     }
 }

@@ -39,19 +39,14 @@ final class DbContext {
         $this->db->autocommit(true);
     }
 
-    /**
-     * @template T
-     * @param class-string<T> $tableClass
-     * @return T[]
-     **/
-    public function query(string $query, string $tableClass, ?array $params = null): array|false {
+    public function query(string $query, ?array $params = null): array|false {
 
         $result = $this->db->execute_query($query, $params);
 
         if (!$result) return false;
 
         $entries = [];
-        while ($entry = $result->fetch_object($tableClass)) {
+        while ($entry = $result->fetch_object()) {
             $entries[] = $entry;
         }
 

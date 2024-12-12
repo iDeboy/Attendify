@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace Controllers;
 
+use Abstractions\DbContext;
 use Abstractions\Renderer;
 
 class LoginController {
 
-    public function __construct(private readonly Renderer $renderer) {
+    public function __construct(
+        private readonly Renderer $renderer,
+        private readonly DbContext $db
+    ) {
     }
 
     public function index() {
+
+        if (is_user_auth('Logeado')) return header('Location: .');
+
         echo $this->renderer->view('Pages/LoginPage.php');
     }
 
@@ -29,7 +36,7 @@ class LoginController {
             goto end;
         }
 
-        $passwordHash = ""; //$usuario->passwordHash;
+        $passwordHash = $usuario->passwordHash;
         if (!$this->verificarPassword($_POST['password'], $passwordHash)) {
             $error = 'Credenciales inválidas. Por favor, intente nuevamente.';
             goto end;
@@ -38,7 +45,7 @@ class LoginController {
         end:
         if ($error !== null) {
 
-            header('Location: /registro', response_code: 400);
+            header('Location: registro', response_code: 400);
             echo $this->renderer->view(
                 'Pages/LoginPage.php',
                 ['Error' => $error]
@@ -47,18 +54,16 @@ class LoginController {
             return;
         }
 
-        echo "Inicio de sesión exitoso";
+        $_SESSION['Logeado'] = true;
+        $_SESSION['Usuario'] = $usuario;
 
-        // TODO: Crear $_SESSION['Logeado'] = true; para inicio de sesión persistente
-        // TODO: Crear $_SESSION['Usuario'] con todos los campos de la tabla $tipoUsuario
-
-        header('Location: /');
+        header('Location: .');
     }
 
     private function validarUsuario(string $tipoUsuario): string|false {
         if (
             strcmp($tipoUsuario, 'Alumno') === 0 ||
-            strcmp($tipoUsuario, 'Docente') === 0
+            strcmp($tipoUsuario, 'Profesor') === 0
         ) return $tipoUsuario;
 
         return false;
@@ -68,14 +73,33 @@ class LoginController {
 
         $correo = validarCorreo($correo);
 
-        // TODO: Ver no si no existe el correo en la base de datos
-        // TODO: Obtener toda la tabla de $tipoUsuario y retornarla
-        // TODO: Regresar el RFC o NoControl como Id
+        if (strcmp($tipoUsuario, 'Alumno') === 0)
+            $sql = "SELECT 'Alumno' AS tipo, noControl AS id, nombre, apellidos, telefono, correoAlum AS correo, passwordHash 
+                    FROM Alumno 
+                    WHERE correoAlum = ?;";
+        else
+            $sql = "SELECT 'Profesor' AS tipo, rfc AS id, nombre, apellidos, telefono, correoProf As correo, passwordHash
+                    FROM Profesor 
+                    WHERE correoProf = ?;";
 
-        return (object)$correo;
+        $result = $this->db->query($sql, [$correo]);
+
+        if (!$result || empty($result)) return false;
+
+        return $result[0];
     }
 
     private function verificarPassword(string $password, string $passwordHash): bool {
         return password_verify($password, $passwordHash);
+    }
+
+    public function logout() {
+
+        if (!is_user_auth('Logeado')) return;
+
+        session_unset();
+        session_destroy();
+
+        header('Location: login');
     }
 }

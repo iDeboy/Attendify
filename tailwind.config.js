@@ -35,6 +35,43 @@ module.exports = {
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
       },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        fadeInRight: {
+            '0%': {
+                opacity: '0',
+                transform: 'translateX(-50px)',
+            },
+            '100%': {
+                opacity: '1',
+                transform: 'translateX(0)',
+            },
+        },
+        pulse: {
+          '0%': { opacity: '1' },
+          '50%': { opacity: '.5' },
+          '100%': { opacity: '1' },
+        },
+        rotateIn: {
+          '0%': {
+              transform: 'rotate(0deg)',
+              opacity: '0',
+          },
+          '100%': {
+              transform: 'rotate(360deg)',
+              opacity: '1',
+          },
+        },
+      },
+      animation: {
+          'fade-in-right': 'fadeInRight 1s ease-out',
+          'fade-in': 'fadeIn 1s ease-in-out',
+          'pulse': 'pulse 2s ease-in-out infinite',
+          'rotateIn': 'rotateIn 1s ease-out',
+      },
     },
   },
   plugins: [],
