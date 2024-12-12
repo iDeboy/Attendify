@@ -12,10 +12,24 @@ class ProfesorController {
     }
 
     public function principal() {
-        echo $this->renderer->view('Pages/ProfesorPrincipalPage.php', layout: 'Layouts/ProfesorLayout.php');
+
+        if (needs_login('Logeado', 'login')) return;
+
+        echo $this->renderer->view(
+            'Pages/ProfesorPrincipalPage.php',
+            ['Profesor' => $_SESSION['Usuario']],
+            layout: 'Layouts/ProfesorLayout.php'
+        );
     }
 
     public function grupos_creados() {
-        echo $this->renderer->view('Pages/ProfesorGruposCreaPage.php', layout: 'Layouts/ProfesorLayout.php');
+
+        if (needs_login('Logeado', 'login')) return;
+
+        echo $this->renderer->view(
+            'Pages/ProfesorGruposCreaPage.php',
+            ['Profesor' => $_SESSION['Usuario']],
+            layout: 'Layouts/ProfesorLayout.php'
+        );
     }
 }
