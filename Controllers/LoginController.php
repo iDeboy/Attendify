@@ -16,6 +16,9 @@ class LoginController {
     }
 
     public function index() {
+
+        if (is_user_auth('Logeado')) return header('Location: .');
+
         echo $this->renderer->view('Pages/LoginPage.php');
     }
 
@@ -51,18 +54,16 @@ class LoginController {
             return;
         }
 
-        echo "Inicio de sesión exitoso";
-
         $_SESSION['Logeado'] = true;
         $_SESSION['Usuario'] = $usuario;
 
-        header('Location: /');
+        header('Location: .');
     }
 
     private function validarUsuario(string $tipoUsuario): string|false {
         if (
             strcmp($tipoUsuario, 'Alumno') === 0 ||
-            strcmp($tipoUsuario, 'Docente') === 0
+            strcmp($tipoUsuario, 'Profesor') === 0
         ) return $tipoUsuario;
 
         return false;
@@ -90,5 +91,15 @@ class LoginController {
 
     private function verificarPassword(string $password, string $passwordHash): bool {
         return password_verify($password, $passwordHash);
+    }
+
+    public function logout() {
+
+        if (!is_user_auth('Logeado')) return;
+
+        session_unset();
+        session_destroy();
+
+        header('Location: login');
     }
 }

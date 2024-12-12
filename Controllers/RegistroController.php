@@ -16,6 +16,9 @@ class RegistroController {
     }
 
     public function index() {
+
+        if (is_user_auth('Logeado')) return header('Location: .');
+
         echo $this->renderer->view('Pages/RegistroPage.php', scripts: ['assets/js/registro.js']);
     }
 
@@ -87,7 +90,7 @@ class RegistroController {
             return;
         }
 
-        header('Location: /login');
+        header('Location: login');
     }
 
     private function validarUsuario(string $tipoUsuario): string|false {

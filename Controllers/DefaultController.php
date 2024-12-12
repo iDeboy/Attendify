@@ -15,12 +15,12 @@ class DefaultController {
 
     public function index() {
 
-        if (needs_login('Logeado', '/login')) return;
+        if (needs_login('Logeado', 'login')) return;
 
         $usuario = $_SESSION['Usuario'];
 
-        if (strcmp($usuario->tipo, 'Alumno') === 0) header('Location: /alumno');
-        else header('Location: /profesor');
+        if (strcmp($usuario->tipo, 'Alumno') === 0) header('Location: alumno');
+        else header('Location: profesor');
         
     }
 }

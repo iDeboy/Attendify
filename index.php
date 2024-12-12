@@ -34,12 +34,13 @@ $router->get('/registro', [RegistroController::class, 'index']);
 $router->get('/alumno', [AlumnoController::class, 'principal']);
 $router->get('/profesor', [ProfesorController::class, 'principal']);
 
-$router->get('/alumno/grupos-inscrito', [AlumnoController::class, 'grupos_inscrito']);
-$router->get('/alumno/grupos', [AlumnoController::class, 'grupos_disponibles']);    
+$router->get('/alumno/grupos-disponibles', [AlumnoController::class, 'grupos_disponibles']);    
+$router->get('/alumno/grupos', [AlumnoController::class, 'grupos_inscrito']);
 $router->get('/alumno/grupos/{grupoId}', [AlumnoController::class, 'grupo']);
 
 $router->get('/profesor/grupos', [ProfesorController::class, 'grupos_creados']);
 
+$router->post('/logout', [LoginController::class, 'logout']);
 $router->post('/login', [LoginController::class, 'login']);
 $router->post('/registro', [RegistroController::class, 'registro']);
 
