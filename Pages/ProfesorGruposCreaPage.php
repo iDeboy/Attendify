@@ -17,7 +17,7 @@
             </div>
         </div>
         <button class="marcar text-H_393737">
-            <span class="mdi mdi-check-bold text-sm text-H_393737"></span>
+            <span class="mdi mdi-view-grid-plus text-sm text-H_393737"></span>
             Crear
         </button>
     </div>

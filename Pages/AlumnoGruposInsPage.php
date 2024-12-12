@@ -11,7 +11,7 @@
                     class="relative w-full pl-2 text-base bg-white text-H_393737 outline-0 tooltip-trigger"
                     placeholder="Buscar . . ."
                     id=""
-                    title="Busca la materia por su codigo o nombre">
+                    title="Busca el grupo por su nombre o materia">
                 <!-- Boton de buscar -->
                 <input type="button" value="Buscar" class=" bg-[#779688] p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-[#DAE5E0] hover:text-H_618762 transition-colors">
             </div>
