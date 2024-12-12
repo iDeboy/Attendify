@@ -13,7 +13,7 @@
 
 /* LOGIN */
 .contenedor-login {
-    @apply flex justify-center items-center h-full w-full;
+    @apply flex items-center justify-center w-full h-full;
 }
 
 .elementos-login{
@@ -45,11 +45,11 @@
 }
 
 .contenedor_texto {
-    @apply pb-1 flex focus-within:border-H_A7E08E;
+    @apply flex pb-1 focus-within:border-H_A7E08E;
 }
 
 .encabezado {
-    @apply bg-H_95C8AA p-2 flex justify-between items-center;
+    @apply flex items-center justify-between p-2 bg-H_95C8AA;
 }
 
 /* TEXTO */
@@ -66,7 +66,7 @@ h1 {
 }
 
 .contenedor-usuario {
-    @apply flex items-center space-x-4 pl-4;
+    @apply flex items-center pl-4 space-x-4;
 }
 
 /* ICONOS */
@@ -89,16 +89,16 @@ h1 {
 
 /* BOTON */
 .boton {
-    @apply w-full items-center justify-center p-3 bg-H_A7E08E text-H_393737 font-normal font-roboto select-none uppercase;
+    @apply items-center justify-center w-full p-3 font-normal uppercase select-none bg-H_A7E08E text-H_393737 font-roboto;
 }
 
 .transicion {
-    @apply text-gray-700 hover:text-H_618762 focus:bg-H_95C8AA focus:text-white rounded-md p-2 select-none;
+    @apply p-2 text-gray-700 rounded-md select-none hover:text-H_618762 focus:bg-H_95C8AA focus:text-white;
 }
 
 /* SELECCIÓN ALUMNO O MAESTRO */
 .radio-inputs {
-    @apply relative flex flex-wrap box-border p-1 text-sm bg-H_F2F5F0 shadow w-full select-none;
+    @apply box-border relative flex flex-wrap w-full p-1 text-sm shadow select-none bg-H_F2F5F0;
 }
 
 .radio-inputs .radio {
@@ -110,11 +110,11 @@ h1 {
 }
 
 .radio-inputs .radio .name {
-    @apply flex cursor-pointer items-center justify-center border-0 py-2 px-0 text-H_393737 transition-all ease-in-out;
+    @apply flex items-center justify-center px-0 py-2 transition-all ease-in-out border-0 cursor-pointer text-H_393737;
 }
 
 .radio-inputs .radio input:checked + .name {
-    @apply bg-H_CCE8D8 font-semibold;
+    @apply font-semibold bg-H_CCE8D8;
 }
 
 .marcar {
@@ -123,8 +123,4 @@ h1 {
 
 .marcar:hover {
     @apply bg-[#EBF3F0] shadow-md;
-}
-
-.marcar:active {
-    @apply transform scale-0
 }

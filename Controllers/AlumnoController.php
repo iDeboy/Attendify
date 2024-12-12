@@ -39,7 +39,7 @@ class AlumnoController {
             return http_response_code(404);
 
         $alumno = $_SESSION['Usuario'];
-        $grupo = null;
+        $grupo = $this->get_grupos($alumno);
         $asistencias = $this->get_listas_asistencia($alumno);
 
         echo $this->renderer->view(
