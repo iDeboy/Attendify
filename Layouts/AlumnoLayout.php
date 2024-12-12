@@ -19,7 +19,7 @@
             <div class="bg-H_DAE5E0 w-64 p-4 rounded-md shadow-md">
                 <!-- Menú principal -->
                 <nav class="space-y-2">
-                    <!-- Elemento estático -->
+                    <!-- Ir a la vista principal del alumno -->
                     <a href="#" class="block transicion text-[18px]">
                         <span class="mdi mdi-home mr-2 select-none text-[20px]"></span>
                         Inicio
@@ -36,10 +36,12 @@
                         </label>
                         <!-- Contenido desplegable -->
                         <div class="hidden peer-checked:block mt-1 pl-4 space-y-2">
+                            <!-- Ir a la vista de grupos disponibles a inscribir -->
                             <a href="#" class="block transicion text-[18px]">
                                 <span class="mdi mdi-view-grid-plus mr-2 select-none text-[20px] "></span>
                                 Inscribirse
                             </a>
+                            <!-- Ir a la vista de grupos inscritos -->
                             <a href="#" class="block transicion text-[18px]">
                                 <span class="mdi mdi-account-check mr-2 select-none text-[20px]"></span>
                                 Inscrito
@@ -47,7 +49,7 @@
                         </div>
                     </div>
 
-                    <!-- Elemento estático -->
+                    <!-- Regresar al apartado de iniciar sesión -->
                     <a href="#" class="block transicion text-[18px]">
                         <span class="mdi mdi-exit-to-app mr-2 select-none text-[20px]"></span>
                         Cerrar Cesión
