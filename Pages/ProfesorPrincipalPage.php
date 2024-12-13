@@ -1,10 +1,10 @@
 <div class="max-w-4xl p-6 mx-auto mb-4 rounded-md shadow-md bg-H_EBF3F0 animate-fade-in">
-    <h2 class="text-xl font-semibold text-H_393737">Bienvenid@ <?= $Profesor->nombre ?>, ¡Que tengas un excelente día!</h2>
+    <h2 class="text-xl font-semibold text-H_393737">Bienvenid@ <?= $Profesor->Nombre ?>, ¡Que tengas un excelente día!</h2>
 </div>
 
 <div class="max-w-4xl p-6 mx-auto rounded-md shadow-md bg-H_EBF3F0 animate-fade-in">
 
-    <!-- Solicitudes enviadas | En esta sección se mostraran los grupos que tengan solicitudes pendientes-->
+    <!-- Solicitudes enviadas | En esta sección se mostraran los grupos que tengan solicitudes pendientes -->
     <div class="p-4 rounded-md shadow bg-H_DAE5E0">
 
         <h2 class="mb-4 text-xl font-semibold text-H_393737">Solicitudes enviadas</h2>
@@ -20,7 +20,7 @@
                         <div class="flex items-center">
                             <span class="mr-2 text-xl mdi mdi-account-group text-H_393737"></span>
                             <!-- Mostrar el numero de solicitudes de ingreso -->
-                            <span class=" text-H_393737"><?= "$solicitud->codigo_grupo | $solicitud->nombreGrupo : $solicitud->numeroSolicitudes" ?></span>
+                            <span class=" text-H_393737"><?= "$solicitud->IdGrupo | $solicitud->NombreMateria : $solicitud->NumeroInscripciones" ?></span>
                         </div>
                     </div>
                     

@@ -125,7 +125,7 @@ class RegistroController {
 
     private function validarNombres(string $nombres): string|false {
 
-        $regex = "/^[A-Za-zÑÁÉÍÓÚñáéíóú ]{2,50}$/";
+        $regex = "/^[A-Za-zÑÁÉÍÓÚñáéíóú ]{3,50}$/";
 
         $nombres = ucwords(trim($nombres));
 

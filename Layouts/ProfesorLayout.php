@@ -3,7 +3,7 @@
     <header class="encabezado">
         <p class="nombreApp">Attendify</p>
         <div class="contenedor-usuario">
-            <p class="texto select-none text-[18px]"><?= "$Profesor->nombre $Profesor->apellidos" ?></p>
+            <p class="texto select-none text-[18px]"><?= "$Profesor->Nombre $Profesor->Apellidos" ?></p>
             <span class="mdi mdi-account-school usuario"></span>
         </div>
     </header>

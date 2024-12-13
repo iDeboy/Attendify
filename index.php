@@ -39,6 +39,7 @@ $router->get('/alumno/grupos', [AlumnoController::class, 'grupos_inscrito']);
 $router->get('/alumno/grupos/{grupoId}', [AlumnoController::class, 'grupo']);
 
 $router->get('/profesor/grupos', [ProfesorController::class, 'grupos_creados']);
+$router->get('/profesor/grupos/{grupoId}', [ProfesorController::class, 'grupo']);
 $router->get('/profesor/crear-grupo', [ProfesorController::class, 'vista_crear_grupo']);
 $router->get('/profesor/grupo/agregar-lista', [ProfesorController::class, 'agregar_lista']);
 $router->get('/profesor/grupo/vista-lista', [ProfesorController::class, 'vista_lista']);

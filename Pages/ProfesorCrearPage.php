@@ -5,7 +5,7 @@
         <h2 class="mb-4 text-xl font-semibold text-H_393737">Agregar grupo</h2>
 
         <div class="p-4 mb-2 bg-white rounded-md shadow-md">
-            <div class="mt-1" action="">
+            <div class="mt-1">
                 <div class="flex items-center justify-between p-1 bg-white">
                     <div class="w-1/2">
                         <div class="p-1 xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
@@ -16,14 +16,36 @@
                                         Grupo
                                     </label>
                                     <!-- Agregar el nombre del grupo -->
-                                    <div class="mt-2">
-                                        <input
-                                            placeholder="Nombre del grupo"
-                                            type="text"
-                                            class="flex w-full h-10 px-3 py-2 text-sm bg-transparent border border-gray-300 rounded-md select-none placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                            name="nombreGrupo"
-                                            id="nombreGrupo" />
-                                    </div>
+                                    <select id="claveGrupo" class="flex w-full h-10 px-3 py-2 mt-2 text-sm bg-transparent border border-gray-300 rounded-md select-none text-H_393737 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50">
+                                        <option value="0">Seleccionar clave</option>
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                        <option value="D">D</option>
+                                        <option value="E">E</option>
+                                        <option value="F">F</option>
+                                        <option value="G">G</option>
+                                        <option value="H">H</option>
+                                        <option value="I">I</option>
+                                        <option value="J">J</option>
+                                        <option value="K">K</option>
+                                        <option value="L">L</option>
+                                        <option value="M">M</option>
+                                        <option value="N">N</option>
+                                        <option value="Ñ">Ñ</option>
+                                        <option value="O">O</option>
+                                        <option value="P">P</option>
+                                        <option value="Q">Q</option>
+                                        <option value="R">R</option>
+                                        <option value="S">S</option>
+                                        <option value="T">T</option>
+                                        <option value="U">U</option>
+                                        <option value="V">V</option>
+                                        <option value="W">W</option>
+                                        <option value="X">X</option>
+                                        <option value="Y">Y</option>
+                                        <option value="Z">Z</option>
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="text-base font-medium select-none text-H_393737">
@@ -31,10 +53,10 @@
                                     </label>
                                     <!-- Elegir el nombre de la materia | al agregar una materia se debe visualizar, se ven todas las materias que ha agregado el profesor -->
                                     <label class="text-white select-none" for="country">Materia</label>
-                                    <select id="materiaId" class="flex w-full h-10 px-3 py-2 mt-2 text-sm bg-transparent border border-gray-300 rounded-md select-none text-H_393737 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50" id="country">
+                                    <select id="materiaId" class="flex w-full h-10 px-3 py-2 mt-2 text-sm bg-transparent border border-gray-300 rounded-md select-none text-H_393737 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50">
                                         <option value="0">Seleccionar materia</option>
                                         <?php foreach ($Materias as $key => $materia): ?>
-                                            <option value="<?= $materia->id_materia ?>"><?= $materia->nombreMateria ?></option>
+                                            <option value="<?= $materia->Id ?>"><?= $materia->Nombre ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>

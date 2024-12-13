@@ -2,38 +2,39 @@ CREATE TABLE IF NOT EXISTS Alumno (
   NoControl VARCHAR(9) PRIMARY KEY NOT NULL, -- [A-Z]?[0-9]{8}
   Nombre VARCHAR(50) NOT NULL,               -- [A-Za-zÑÁÉÍÓÚñáéíóú ]{3,50}
   Apellidos VARCHAR(50) NOT NULL,            -- [A-Za-zÑÁÉÍÓÚñáéíóú ]{3,50}
-  Telefono VARCHAR(15) DEFAULT NULL UNIQUE,  -- [0-9]{10}
+  Telefono VARCHAR(15) NOT NULL UNIQUE,  -- [0-9]{10}
   Correo VARCHAR(100) NOT NULL UNIQUE,
   PasswordHash VARCHAR(255) NOT NULL
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS Profesor (
-  Rfc VARCHAR(9) PRIMARY KEY NOT NULL,       -- [A-ZÑ&]{3,4}\d{6}[A-Z0-9]{2}[0-9A]
-  Nombre VARCHAR(50) NOT NULL,               -- [A-Za-zÑÁÉÍÓÚñáéíóú ]{3,50}
-  Apellidos VARCHAR(50) NOT NULL,            -- [A-Za-zÑÁÉÍÓÚñáéíóú ]{3,50}
-  Telefono VARCHAR(15) DEFAULT NULL UNIQUE,  -- [0-9]{10}
+  Rfc VARCHAR(13) PRIMARY KEY NOT NULL,       -- [A-ZÑ&]{3,4}\d{6}[A-Z0-9]{2}[0-9A]
+  Nombre VARCHAR(50) NOT NULL,                -- [A-Za-zÑÁÉÍÓÚñáéíóú ]{3,50}
+  Apellidos VARCHAR(50) NOT NULL,             -- [A-Za-zÑÁÉÍÓÚñáéíóú ]{3,50}
+  Telefono VARCHAR(15) NOT NULL UNIQUE,       -- [0-9]{10}
   Correo VARCHAR(100) NOT NULL UNIQUE,
   PasswordHash VARCHAR(255) NOT NULL
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS Materia (
-  Id VARCHAR(3) PRIMARY KEY NOT NULL,        -- [A-Z][0-9][A-Z]
-  Nombre VARCHAR(50) NOT NULL,               -- [A-Za-zÑÁÉÍÓÚñáéíóú ]{3,50}
+  Id VARCHAR(3) PRIMARY KEY NOT NULL,        -- [0-9][A-Z][0-9]
+  Nombre VARCHAR(50) NOT NULL                -- [0-9A-Za-zÑÁÉÍÓÚñáéíóú ]{3,50}
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS Grupo (
-  -- Id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  RfcProfesor VARCHAR(9) NOT NULL            -- [A-ZÑ&]{3,4}\d{6}[A-Z0-9]{2}[0-9A]
-  IdMateria VARCHAR(3) NOT NULL,             -- [A-Z][0-9][A-Z]
-  Clave VARCHAR(1) NOT NULL,                 -- [A-Z]
+  RfcProfesor VARCHAR(13) NOT NULL,            -- [A-ZÑ&]{3,4}\d{6}[A-Z0-9]{2}[0-9A]
+  IdMateria VARCHAR(3) NOT NULL,               -- [0-9][A-Z][0-9]
+  Clave VARCHAR(1) NOT NULL,                   -- [A-Z]
 
-  Id VARCHAR(4) GENERATED ALWAYS AS (CONCAT(IdMateria, Clave)) STORED PRIMARY KEY,
+  Id VARCHAR(4) GENERATED ALWAYS AS (CONCAT(IdMateria, Clave)) PERSISTENT UNIQUE KEY,
 
-  Nombre VARCHAR(50) NOT NULL,               -- [A-Za-zÑÁÉÍÓÚñáéíóú ]{3,50}
+  -- Nombre VARCHAR(50) NOT NULL,               -- [A-Za-zÑÁÉÍÓÚñáéíóú ]{3,50}
   HorasSemanales INT NOT NULL,               -- > 1
 
- FOREIGN KEY (RfcProfesor) REFERENCES Profesor(Rfc) ON DELETE CASCADE ON UPDATE CASCADE,
- FOREIGN KEY (IdMateria) REFERENCES Materia(Id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (RfcProfesor) REFERENCES Profesor(Rfc) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (IdMateria) REFERENCES Materia(Id) ON DELETE CASCADE ON UPDATE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -41,8 +42,8 @@ CREATE TABLE IF NOT EXISTS InscripcionGrupo (
   
   Id INT AUTO_INCREMENT PRIMARY KEY,
 
-  IdGrupo VARCHAR(4) NOT NULL,              -- [A-Z][0-9][A-Z][A-Z]
-  IdAlumno VARCHAR(9) NOT NULL,             -- [A-Z]?[0-9]{8}
+  IdGrupo VARCHAR(4) NOT NULL,                     -- [0-9][A-Z][0-9][A-Z]
+  IdAlumno VARCHAR(9) NOT NULL,                    -- [A-Z]?[0-9]{8}
   Fecha DATETIME NOT NULL DEFAULT NOW(),
   
   Estado ENUM('Pendiente', 'Aceptado', 'Rechazado') NOT NULL DEFAULT 'Pendiente',
@@ -55,9 +56,9 @@ CREATE TABLE IF NOT EXISTS InscripcionGrupo (
 CREATE TABLE IF NOT EXISTS Clase (
   
   Id INT AUTO_INCREMENT PRIMARY KEY,
-  IdGrupo VARCHAR(4) NOT NULL,                  -- [A-Z][0-9][A-Z][A-Z]
+  IdGrupo VARCHAR(4) NOT NULL,                       -- [0-9][A-Z][0-9][A-Z]
   FechaInicio DATETIME NOT NULL DEFAULT NOW(),
-  Tema VARCHAR(255) NOT NULL
+  Tema VARCHAR(255) NOT NULL,
 
   FOREIGN KEY (IdGrupo) REFERENCES Grupo(Id) ON DELETE CASCADE ON UPDATE CASCADE
 
@@ -71,8 +72,8 @@ CREATE TABLE IF NOT EXISTS Asistencia (
   IdAlumno VARCHAR(9) NOT NULL,             -- [A-Z]?[0-9]{8}
 
   Fecha DATETIME NOT NULL DEFAULT NOW(),
-  Ip VARCHAR(39) DEFAULT NULL
+  Ip VARCHAR(39),
 
-  FOREIGN KEY (IdClase) REFERENCES Clase(IdClase) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (IdClase) REFERENCES Clase(Id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (IdAlumno) REFERENCES Alumno(NoControl) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

@@ -8,12 +8,12 @@
   const agregarMateria = document.getElementById("agregarMateria");
 
   const codigoMateria = document.getElementById("codigoMateria");
-  const nombreMateria = document.getElementById("nombreMateria");  
+  const nombreMateria = document.getElementById("nombreMateria");
 
   const btnGuardarGrupo = document.getElementById("btnGuardarGrupo");
-  const nombreGrupo = document.getElementById('nombreGrupo');
+  const claveGrupo = document.getElementById("claveGrupo");
   const materiaId = document.getElementById("materiaId");
-  const horasSemanales = document.getElementById('horasSemanales');
+  const horasSemanales = document.getElementById("horasSemanales");
 
   btnAgregarMateria.addEventListener("click", (e) => {
     limpiar();
@@ -34,16 +34,14 @@
       },
       body: JSON.stringify({
         materiaId: materiaId.value,
-        nombreGrupo: nombreGrupo.value,
-        horasSemanales: horasSemanales.value
+        claveGrupo: claveGrupo.value,
+        horasSemanales: horasSemanales.value,
       }),
     }).then((r) => r.json());
 
-    console.log(result);
+    if (!result.valido) return alert(result.error);
 
-    if (!result.valido) return alert("No se pudo agregar el grupo!");
-
-    location.href = 'profesor/grupos';
+    location.href = "profesor/grupos";
   });
 
   btnGuardarMateria.addEventListener("click", async (e) => {
@@ -58,7 +56,7 @@
       }),
     }).then((r) => r.json());
 
-    if (!result.valido) return alert("No se pudo agregar la materia!");
+    if (!result.valido) return alert(result.error);
 
     location.href = location.href;
   });

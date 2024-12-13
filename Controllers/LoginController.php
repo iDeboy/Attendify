@@ -36,7 +36,7 @@ class LoginController {
             goto end;
         }
 
-        $passwordHash = $usuario->passwordHash;
+        $passwordHash = $usuario->PasswordHash;
         if (!$this->verificarPassword($_POST['password'], $passwordHash)) {
             $error = 'Credenciales inválidas. Por favor, intente nuevamente.';
             goto end;
@@ -74,13 +74,13 @@ class LoginController {
         $correo = validarCorreo($correo);
 
         if (strcmp($tipoUsuario, 'Alumno') === 0)
-            $sql = "SELECT 'Alumno' AS tipo, noControl AS id, nombre, apellidos, telefono, correoAlum AS correo, passwordHash 
+            $sql = "SELECT 'Alumno' AS Tipo, NoControl AS Id, Nombre, Apellidos, Telefono, Correo, PasswordHash 
                     FROM Alumno 
-                    WHERE correoAlum = ?;";
+                    WHERE Correo = ?;";
         else
-            $sql = "SELECT 'Profesor' AS tipo, rfc AS id, nombre, apellidos, telefono, correoProf As correo, passwordHash
+            $sql = "SELECT 'Profesor' AS Tipo, Rfc AS Id, Nombre, Apellidos, Telefono, Correo, PasswordHash
                     FROM Profesor 
-                    WHERE correoProf = ?;";
+                    WHERE Correo = ?;";
 
         $result = $this->db->query($sql, [$correo]);
 

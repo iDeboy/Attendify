@@ -17,7 +17,7 @@ class AlumnoController {
 
     public function principal() {
 
-        if (needs_login('Logeado', 'login')) return;
+        if (needs_login('Logeado', BASE_SITE . '/login')) return;
 
         $alumno = $_SESSION['Usuario'];
         $clases = $this->get_clases_hoy($alumno);
@@ -32,7 +32,7 @@ class AlumnoController {
 
     public function grupo(string $grupoId) {
 
-        if (needs_login('Logeado', 'login')) return;
+        if (needs_login('Logeado', BASE_SITE . '/login')) return;
 
         $grupo = $this->get_grupo($grupoId);
         if ($grupo === false)
@@ -51,7 +51,7 @@ class AlumnoController {
 
     public function grupos_disponibles() {
 
-        if (needs_login('Logeado', 'login')) return;
+        if (needs_login('Logeado', BASE_SITE . '/login')) return;
 
         $alumno = $_SESSION['Usuario'];
         $grupos = $this->get_grupos_disponibles($alumno);
@@ -65,7 +65,7 @@ class AlumnoController {
 
     public function grupos_inscrito() {
 
-        if (needs_login('Logeado', 'login')) return;
+        if (needs_login('Logeado', BASE_SITE . '/login')) return;
 
         $alumno = $_SESSION['Usuario'];
         $grupos = $this->get_grupos($alumno);
