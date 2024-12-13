@@ -67,7 +67,7 @@ function get_site(): string {
 }
 
 function validarCorreo(string $correo): string|false {
-    $correo = trim($correo);
+    $correo = strtolower(trim($correo));
 
     if (strlen($correo) > 100) return false;
 
@@ -78,6 +78,16 @@ function validarCorreo(string $correo): string|false {
     return $correo;
 }
 
+function validarTelefono(string $telefono): string|false {
+    $regex = "/^[0-9]{10}$/";
+
+    $telefono = preg_replace('/\s+/', '', trim($telefono));
+
+    if (!preg_match($regex, $telefono)) return false;
+
+    return $telefono;
+}
+
 function validarPassword(string $password, string $confirmPassword): string|false {
     if (empty($password) || empty($confirmPassword)) return false;
 
@@ -85,3 +95,5 @@ function validarPassword(string $password, string $confirmPassword): string|fals
 
     return $password;
 }
+
+require_once 'Core/constants.php';

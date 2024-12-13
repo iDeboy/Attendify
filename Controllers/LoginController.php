@@ -17,7 +17,7 @@ class LoginController {
 
     public function index() {
 
-        if (is_user_auth('Logeado')) return header('Location: .');
+        if (is_user_auth('Logeado')) return header('Location: ' . BASE_SITE . '/');
 
         echo $this->renderer->view('Pages/LoginPage.php');
     }
@@ -45,7 +45,7 @@ class LoginController {
         end:
         if ($error !== null) {
 
-            header('Location: registro', response_code: 400);
+            header('Location: ' . BASE_SITE . '/registro', response_code: 400);
             echo $this->renderer->view(
                 'Pages/LoginPage.php',
                 ['Error' => $error]
@@ -57,7 +57,7 @@ class LoginController {
         $_SESSION['Logeado'] = true;
         $_SESSION['Usuario'] = $usuario;
 
-        header('Location: .');
+        header('Location: ' . BASE_SITE . '/');
     }
 
     private function validarUsuario(string $tipoUsuario): string|false {
@@ -100,6 +100,6 @@ class LoginController {
         session_unset();
         session_destroy();
 
-        header('Location: login');
+        header('Location: ' . BASE_SITE . '/login');
     }
 }

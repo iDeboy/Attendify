@@ -12,12 +12,10 @@ require_once 'Core/functions.php';
 class Router {
 
     private array $routes = [];
-    private readonly string $postfix;
 
     public function __construct(
         private readonly IServiceProvider $provider
     ) {
-        $this->postfix = get_site();
     }
 
     public function add(string $method, string $uri, array $controller) {
@@ -27,7 +25,7 @@ class Router {
         }
 
         $this->routes[strtoupper($method)][] = [
-            'uri' => "$this->postfix$uri",
+            'uri' => BASE_SITE . "$uri",
             'controller' => $controller
         ];
 

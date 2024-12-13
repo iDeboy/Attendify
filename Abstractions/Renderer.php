@@ -20,8 +20,6 @@ final class Renderer {
         if (!$layout) $body = $content;
         else $body = render_template($layout, array_merge(['Body' => $content], $data));
 
-        $base = get_site();
-
-        return render_template($this->app, ['Base' => $base, 'Body' => $body, 'Styles' => $styles, 'Scripts' => $scripts]);
+        return render_template($this->app, ['Base' => BASE_SITE, 'Body' => $body, 'Styles' => $styles, 'Scripts' => $scripts]);
     }
 }
