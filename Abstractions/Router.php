@@ -14,7 +14,8 @@ class Router {
     private array $routes = [];
 
     public function __construct(
-        private readonly IServiceProvider $provider
+        private readonly IServiceProvider $provider,
+        private readonly Renderer $renderer
     ) {
     }
 
@@ -75,16 +76,14 @@ class Router {
     public function route(string $path, string $method) {
 
         if (!isset($this->routes[strtoupper($method)])) {
-            $this->abort();
-            return;
+            return $this->abort();
         }
 
         $routes = $this->routes[strtoupper($method)];
         $found = false;
 
         if ($routes === null) {
-            $this->abort();
-            return;
+            return $this->abort();
         }
 
         foreach ($routes as $route) {
@@ -112,6 +111,6 @@ class Router {
     private function abort($status = 404) {
         http_response_code($status);
 
-        echo "No existe esta página (Esto significa que funciona el .htaccess)";
+        echo $this->renderer->view("Pages/NotFound.php", ['Error' => 'Página no encontrada', 'Mensaje' => 'La página solicitada no existe.', 'Regresar' => BASE_SITE . '/']);
     }
 }

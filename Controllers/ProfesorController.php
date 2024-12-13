@@ -6,6 +6,9 @@ namespace Controllers;
 
 use Abstractions\DbContext;
 use Abstractions\Renderer;
+use DateTime;
+use DateTimeZone;
+use Exception;
 
 class ProfesorController {
 
@@ -66,7 +69,11 @@ class ProfesorController {
         $grupo = $this->get_grupo($profesor->Id, $grupoId);
 
         if ($grupo === null) { // No encontrado
-            echo "No existe el grupo";
+            echo $this->renderer->view("Pages/NotFound.php", [
+                'Error' => 'Recurso no encontrado',
+                'Mensaje' => 'El grupo solicitado no existe.',
+                'Regresar' => BASE_SITE . '/profesor/grupos'
+            ]);
             return;
         }
 
@@ -86,6 +93,124 @@ class ProfesorController {
             layout: 'Layouts/ProfesorLayout.php',
             scripts: ['assets/js/profesorGrupo.js']
         );
+    }
+
+    public function agregar_clase(string $grupoId) {
+
+        if (needs_login('Logeado', BASE_SITE . '/login')) return;
+
+        $profesor = $_SESSION['Usuario'];
+
+        $grupo = $this->get_grupo($profesor->Id, $grupoId);
+
+        if ($grupo === null) { // No encontrado
+            echo $this->renderer->view("Pages/NotFound.php", [
+                'Error' => 'Recurso no encontrado',
+                'Mensaje' => 'El grupo solicitado no existe.',
+                'Regresar' => BASE_SITE . '/profesor/grupos'
+            ]);
+            return;
+        }
+
+        $solicitudes = $this->get_solicitudes_pendientes($grupoId);
+
+        echo $this->renderer->view(
+            'Pages/ProfesorAgregarListaPage.php',
+            [
+                'Profesor' => $profesor,
+                'Grupo' => $grupo,
+                'Solicitudes' => $solicitudes
+            ],
+            layout: 'Layouts/ProfesorLayout.php',
+            scripts: ['assets/js/profesorGrupo.js', 'assets/js/crearLista.js']
+        );
+    }
+
+    public function vista_clase(string $claseId) {
+
+        if (needs_login('Logeado', BASE_SITE . '/login')) return;
+
+        $profesor = $_SESSION['Usuario'];
+        $profesor = $_SESSION['Usuario'];
+
+        $clase = $this->get_clase($claseId);
+        $grupo = $this->get_grupo($profesor->Id, $clase->IdGrupo);
+
+        if ($grupo === null) { // No encontrado
+            echo $this->renderer->view("Pages/NotFound.php", [
+                'Error' => 'Recurso no encontrado',
+                'Mensaje' => 'El grupo solicitado no existe.',
+                'Regresar' => BASE_SITE . '/profesor/grupos'
+            ]);
+            return;
+        }
+
+        $solicitudes = $this->get_solicitudes_pendientes($clase->IdGrupo);
+        $asistencias = $this->get_asistencias($clase->Id);
+
+        echo $this->renderer->view(
+            'Pages/ProfesorVistaListaPage.php',
+            [
+                'Profesor' => $profesor,
+                'Clase' => $clase,
+                'Grupo' => $grupo,
+                'Solicitudes' => $solicitudes,
+                'Asistencias' => $asistencias
+            ],
+            layout: 'Layouts/ProfesorLayout.php',
+            scripts: ['assets/js/profesorGrupo.js']
+        );
+    }
+
+    public function crear_clase() {
+
+        if (!is_user_auth('Logeado')) {
+            echo json_encode(['valido' => false, 'error' =>  'No estas logeado.']);
+            return;
+        }
+
+        $body = json_decode(file_get_contents('php://input'), true);
+
+        $grupoId = strtoupper(trim($body['grupoId']));
+        $regex = "/^[0-9][A-Z][0-9][A-Z]$/";
+        if (!preg_match($regex, $grupoId)) {
+            echo json_encode(['valido' => false, 'error' => 'El grupo no es válido.']);
+            return;
+        }
+
+        $temaClase = htmlspecialchars(trim($body['temaClase']));
+        if (empty($temaClase) || strlen($temaClase) > 255) {
+            echo json_encode(['valido' => false, 'error' => 'El tema es muy largo o no tiene contenido.']);
+            return;
+        }
+
+        $fechaClase = trim($body['fechaClase']);
+        $horaClase = trim($body['horaClase']);
+
+        $fecha = "$fechaClase $horaClase";
+
+        try {
+            $dateTime = new DateTime($fecha);
+        } catch (Exception $e) {
+            echo json_encode(['valido' => false, 'error' => 'La fecha o la hora tienen un formato inválido.']);
+            return;
+        }
+
+        $now = new DateTime();
+        $now = new DateTime($now->format('Y-m-d H:i'));
+
+        if ($dateTime < $now) {
+            echo json_encode(['valido' => false, 'error' => 'La fecha no puede ser un momento anterior.']);
+            return;
+        }
+
+        $sql = "INSERT INTO Clase(IdGrupo, FechaInicio, Tema) VALUES (?,?,?);";
+        if (!$this->db->execute($sql, "sss", [$grupoId, $fecha, $temaClase])) {
+            echo json_encode(['valido' => false, 'error' => 'Hubo un problema interno. Por favor, intentalo más tarde.']);
+            return;
+        }
+
+        echo json_encode(['valido' => true]);
     }
 
     public function crear_grupo() {
@@ -227,9 +352,9 @@ class ProfesorController {
 
         $sql =
             "SELECT 
-                Id AS Id,
+                Id,
                 DATE_FORMAT(FechaInicio, '%d-%m-%Y | %H:%i hrs') AS Fecha,
-                Tema AS Tema
+                Tema
             FROM Clase
             WHERE IdGrupo = ?
             ORDER BY FechaInicio ASC;";
@@ -239,6 +364,20 @@ class ProfesorController {
         if (!$result) return [];
 
         return $result;
+    }
+
+    private function get_clase(string $claseId) {
+        $sql =
+            "SELECT 
+                Id,
+                IdGrupo,
+                DATE_FORMAT(FechaInicio, '%d-%m-%Y | %H:%i hrs') AS Fecha,
+                Tema
+            FROM Clase 
+            WHERE Id = ?;";
+        $result = $this->db->query($sql, [$claseId]);
+        if (!$result || empty($result)) return [];
+        return $result[0];
     }
 
     private function get_solicitudes($profesor): array {
@@ -292,29 +431,21 @@ class ProfesorController {
         return $result;
     }
 
-    public function vista_lista() {
+    private function get_asistencias(int $claseId) {
+        $sql =
+            "SELECT 
+                al.Nombre,
+                al.Apellidos,
+                a.Ip
+            FROM Asistencia a
+            JOIN Alumno al ON a.IdAlumno = al.NoControl
+            WHERE a.IdClase = ?
+            ORDER BY a.Fecha ASC;";
 
-        if (needs_login('Logeado', BASE_SITE . '/login')) return;
+        $result = $this->db->query($sql, [$claseId]);
 
-        $profesor = $_SESSION['Usuario'];
+        if (!$result) return [];
 
-        echo $this->renderer->view(
-            'Pages/ProfesorVistaListaPage.php',
-            ['Profesor' => $profesor],
-            layout: 'Layouts/ProfesorLayout.php'
-        );
-    }
-
-    public function agregar_lista() {
-
-        if (needs_login('Logeado', BASE_SITE . '/login')) return;
-
-        $profesor = $_SESSION['Usuario'];
-
-        echo $this->renderer->view(
-            'Pages/ProfesorAgregarListaPage.php',
-            ['Profesor' => $profesor],
-            layout: 'Layouts/ProfesorLayout.php'
-        );
+        return $result;
     }
 }

@@ -125,11 +125,11 @@
     <div class="p-4 mb-6 rounded-md shadow bg-H_DAE5E0">
 
         <div class="flex items-center justify-between">
-            <h2 class="mb-4 text-xl font-semibold text-H_393737">Listas</h2>
-            <button class="marcar text-H_393737">
+            <h2 class="mb-4 text-xl font-semibold text-H_393737">Clases</h2>
+            <a href="profesor/grupos/<?= $Grupo->IdGrupo ?>/crear-clase" class="flex items-center justify-center marcar text-H_393737">
                 <span class="text-sm mdi mdi-file-document-plus text-H_393737"></span>
                 Crear
-            </button>
+            </a>
         </div>
 
         <div class="h-[280px] overflow-y-auto p-1 mt-2">
@@ -147,12 +147,10 @@
                             </div>
                             <div class="flex items-center">
                                 <!-- Boton para ver detalles de la lista -->
-                                <button class="marcar text-H_393737">
-                                    <a href="listas/<?= $clase->Id ?>">
-                                        <span class="text-sm mdi mdi-eye text-H_393737"></span>
-                                        Ver
-                                    </a>
-                                </button>
+                                <a href="profesor/clases/<?= $clase->Id ?>" class="flex items-center justify-center marcar text-H_393737">
+                                    <span class="text-sm mdi mdi-eye text-H_393737"></span>
+                                    Ver
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -16,12 +16,10 @@
                 <input type="button" value="Buscar" class=" bg-[#779688] p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-[#DAE5E0] hover:text-H_618762 transition-colors">
             </div>
         </div>
-        <button class="marcar text-H_393737">
-            <a href="profesor/crear-grupo">
-                <span class="text-sm mdi mdi-view-grid-plus text-H_393737"></span>
-                Crear
-            </a>
-        </button>
+        <a href="profesor/crear-grupo" class="flex items-center justify-center marcar text-H_393737">
+            <span class="text-sm mdi mdi-view-grid-plus text-H_393737"></span>
+            Crear
+        </a>
     </div>
 </div>
 

@@ -160,12 +160,10 @@
                         Guardar
                     </button>
                     <!-- El boton se regresa a la vista ProfesorCrearPage.php -->
-                    <button class="ml-4 text-sm select-none marcar text-H_393737">
-                        <a href="profesor/grupos">
-                            <span class="mdi mdi-cancel text-H_393737"></span>
-                            Cancelar
-                        </a>
-                    </button>
+                    <a href="profesor/grupos" class="flex items-center justify-center ml-4 text-sm select-none marcar text-H_393737">
+                        <span class="mdi mdi-cancel text-H_393737"></span>
+                        Cancelar
+                    </a>
                 </div>
             </div>
         </div>

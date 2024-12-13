@@ -31,7 +31,11 @@ function render_template(string $template, array $data = []) {
         template($template, $data);
         $content = ob_get_clean();
     } catch (Throwable $e) {
+
         while (ob_get_level() > $level) ob_end_clean();
+
+        echo("ERROR: " . $e->getFile() . ":" . $e->getLine() . ": " . $e->getMessage());
+        die;
     }
 
     return $content;
