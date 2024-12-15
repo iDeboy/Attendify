@@ -91,8 +91,43 @@ class ProfesorController {
                 'Clases' => $clases
             ],
             layout: 'Layouts/ProfesorLayout.php',
-            scripts: ['assets/js/profesorGrupo.js']
+            scripts: ['assets/js/profesorGrupo.js','assets/js/grafica.js']
         );
+    }
+
+    public function solicitud() {
+
+        if (!is_user_auth('Logeado')) {
+            echo json_encode(['valido' => false, 'error' =>  'No estas logeado.']);
+            return;
+        }
+
+        $body = json_decode(file_get_contents('php://input'), true);
+
+        $accion = $body['accion'];
+
+        $solicitudId = trim($body['solicitudId']);
+        $regex = "/^\d+$/";
+        if (!preg_match($regex, $solicitudId)) {
+            echo json_encode(['valido' => false, 'error' =>  'La solicitud es inválida.']);
+            return;
+        }
+
+        if ($accion === 0) {
+            $accion = 'Rechazado';
+        } elseif ($accion === 1) {
+            $accion = 'Aceptado';
+        } else {
+            echo json_encode(['valido' => false, 'error' => 'Hubo un problema interno. Por favor, intentalo más tarde.']);
+            return;
+        }
+
+        if (!$this->db->execute("UPDATE InscripcionGrupo SET Estado = '$accion' WHERE Id = ?", "i", [$solicitudId])) {
+            echo json_encode(['valido' => false, 'error' => 'Hubo un problema interno. Por favor, intentalo más tarde.']);
+            return;
+        }
+
+        echo json_encode(['valido' => true]);
     }
 
     public function agregar_clase(string $grupoId) {
@@ -122,7 +157,7 @@ class ProfesorController {
                 'Solicitudes' => $solicitudes
             ],
             layout: 'Layouts/ProfesorLayout.php',
-            scripts: ['assets/js/profesorGrupo.js', 'assets/js/crearLista.js']
+            scripts: ['assets/js/profesorGrupo.js', 'assets/js/crearClase.js']
         );
     }
 
@@ -302,9 +337,12 @@ class ProfesorController {
     private function get_grupo(string $profesorRfc, string $grupoId) {
 
         $sql =
-            "SELECT g.Id AS IdGrupo, m.Nombre AS NombreMateria FROM Grupo g
-             JOIN Materia m ON g.IdMateria = m.Id 
-             WHERE g.RfcProfesor = ? AND g.Id = ?;";
+            "SELECT 
+                g.Id AS IdGrupo, 
+                m.Nombre AS NombreMateria 
+            FROM Grupo g
+            JOIN Materia m ON g.IdMateria = m.Id 
+            WHERE g.RfcProfesor = ? AND g.Id = ?;";
         $result = $this->db->query($sql, [$profesorRfc, $grupoId]);
 
         if (!$result || empty($result)) return null;
@@ -316,9 +354,12 @@ class ProfesorController {
         $sql =
             "SELECT 
                 a.Nombre AS Nombre,
-                a.Apellidos AS Apellidos
+                a.Apellidos AS Apellidos,
+                COUNT(asist.Id) AS Asistencias
             FROM InscripcionGrupo ig
-            JOIN Alumno a ON ig.IdAlumno = a.NoControl
+            INNER JOIN Alumno a ON ig.IdAlumno = a.NoControl
+            INNER JOIN Clase AS c ON ig.IdGrupo = c.IdGrupo
+            LEFT JOIN Asistencia AS asist ON c.Id = asist.IdClase AND asist.IdAlumno = a.NoControl
             WHERE ig.IdGrupo = ? AND ig.Estado = 'Aceptado'
             ORDER BY a.Apellidos ASC, a.Nombre ASC, a.NoControl ASC;";
 

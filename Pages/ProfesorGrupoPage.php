@@ -41,8 +41,8 @@
                                     </div>
                                     <div class="flex items-center">
                                         <!-- Botones para aceptar o rechazar al alumno del grupo -->
-                                        <button class="m-1" data-id="<?= $solicitud->Id ?>"><span class="mdi mdi-check-bold text-xl text-[#86C286]"></span></button>
-                                        <button class="m-1" data-id="<?= $solicitud->Id ?>"><span class="mdi mdi-close-thick text-xl text-[#F05D5D]"></span></button>
+                                        <button class="m-1 btnAceptarAlumno" data-id="<?= $solicitud->Id ?>"><span class="mdi mdi-check-bold text-xl text-[#86C286]"></span></button>
+                                        <button class="m-1 btnRechazarAlumno" data-id="<?= $solicitud->Id ?>"><span class="mdi mdi-close-thick text-xl text-[#F05D5D]"></span></button>
                                     </div>
                                 </div>
 
@@ -97,7 +97,7 @@
                             </div>
                             <div class="flex items-center">
                                 <!-- Boton para ingresar al grupo | mandarlo a la vista del grupo -->
-                                <span class=" text-H_393737">Asistencias: {{Total de asistencias en el grupo}}</span>
+                                <span class=" text-H_393737">Asistencias: <?= $alumno->Asistencias ?></span>
                             </div>
                         </div>
                     </div>

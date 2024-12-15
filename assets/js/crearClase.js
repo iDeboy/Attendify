@@ -4,10 +4,9 @@
   const fechaClase = document.getElementById("fechaClase");
   const horaClase = document.getElementById("horaClase");
   const btnGuardar = document.getElementById("btnGuardar");
+  const grupoId = btnGuardar.getAttribute("data-id");
 
   btnGuardar.addEventListener("click", async (e) => {
-
-    const grupoId = e.target.getAttribute("data-id");
     const result = await fetch(API_CLASE, {
       method: "POST",
       headers: {

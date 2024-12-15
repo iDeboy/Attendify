@@ -13,7 +13,7 @@ function dd($value) {
 function d($value) {
     echo '<pre>';
     var_dump($value);
-    echo '<pre>';
+    echo '</pre>';
 }
 
 function template(string $template, array $data = []) {

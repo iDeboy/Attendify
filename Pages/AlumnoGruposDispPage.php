@@ -30,29 +30,26 @@
 
             <?php if (count($Grupos) !== 0): ?>
 
-                <?php foreach ($Grupos as $ket => $grupo): ?>
-                    
+                <?php foreach ($Grupos as $key => $grupo): ?>
+
                     <div class="p-4 mb-2 bg-white rounded-md shadow-md">
-                        <h3 class="mb-2 font-bold text-H_455B3C"><?= "$grupo->codigo_grupo | $grupo->nombreGrupo" ?></h3>
+                        <h3 class="mb-2 font-bold text-H_455B3C"><?= "$grupo->Id | $grupo->NombreMateria" ?></h3>
                         <div class="flex items-center justify-between p-1 bg-white">
                             <div class="flex items-center">
                                 <span class="mr-2 text-xl mdi mdi-town-hall text-H_393737"></span>
-                                <span class=" text-H_393737">Impartido por: <?= $grupo->nombreProfesor ?></span>
+                                <span class=" text-H_393737">Impartido por: <?= "$grupo->NombreProfesor $grupo->ApellidosProfesor" ?></span>
                             </div>
-                            <form class="flex items-center">
-                                <!-- Boton para que el alumno mande la solicitud de inscripción -->
-                                <button
-                                    name="grupo"
-                                    value="<?= $grupo->id_grupo ?>"
-                                    class="bg-[#DAE5E0] text-center w-44 h-10 relative text-H_393737 group select-none"
-                                    type="submit">
-                                    <div
-                                        class="bg-[#779688] h-8 w-1/4 flex items-center justify-center absolute right-1 top-[4px] group-hover:w-[168px] z-10 duration-500">
-                                        <span class="text-xl text-white mdi mdi-plus"></span>
-                                    </div>
-                                    <p class="mr-10 translate-x-2">Inscribirse</p>
-                                </button>
-                            </form>
+                            <!-- Boton para que el alumno mande la solicitud de inscripción -->
+                            <button id="btnInscribirse"
+                                data-id="<?= $grupo->Id ?>"
+                                class="bg-[#DAE5E0] text-center w-44 h-10 relative text-H_393737 group select-none">
+                                <div
+                                    class="bg-[#779688] h-8 w-1/4 flex items-center justify-center absolute right-1 top-[4px] group-hover:w-[168px] z-10 duration-500">
+                                    <span class="text-xl text-white mdi mdi-plus"></span>
+                                </div>
+                                <p class="mr-10 translate-x-2">Inscribirse</p>
+                            </button>
+
                         </div>
                     </div>
 
