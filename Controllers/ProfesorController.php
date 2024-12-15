@@ -91,7 +91,7 @@ class ProfesorController {
                 'Clases' => $clases
             ],
             layout: 'Layouts/ProfesorLayout.php',
-            scripts: ['assets/js/profesorGrupo.js','assets/js/grafica.js']
+            scripts: ['assets/js/profesorGrupo.js', 'assets/js/grafica.js']
         );
     }
 
@@ -332,6 +332,107 @@ class ProfesorController {
         }
 
         echo json_encode(['valido' => true]);
+    }
+
+    public function grafica() {
+
+        if (!is_user_auth('Logeado')) {
+            echo json_encode(['valido' => false, 'error' =>  'No estas logeado.']);
+            return;
+        }
+
+        $body = json_decode(file_get_contents('php://input'), true);
+
+        $grupoId = strtoupper(trim($body['grupoId']));
+        $regex = "/^[0-9][A-Z][0-9][A-Z]$/";
+        if (!preg_match($regex, $grupoId)) {
+            echo json_encode(['valido' => false, 'error' => 'El grupo no es válido.']);
+            return;
+        }
+
+        $filtro = trim($body['filtro']);
+        $regex = "/^1|2$/";
+        if (!preg_match($regex, $filtro)) {
+            echo json_encode(['valido' => false, 'error' => 'Hubo un problema interno. Por favor, intentalo más tarde.']);
+            return;
+        }
+        $filtro = intval($filtro);
+        if ($filtro === 1) { // Semanal
+
+            $datos = [
+                'Lunes' => 0,
+                'Martes' => 0,
+                'Miércoles' => 0,
+                'Jueves' => 0,
+                'Viernes' => 0,
+                'Sábado' => 0,
+            ];
+
+            $sql = "SELECT 
+                    CASE 
+                        WHEN DAYOFWEEK(Fecha) = 2 THEN 'Lunes'
+                        WHEN DAYOFWEEK(Fecha) = 3 THEN 'Martes'
+                        WHEN DAYOFWEEK(Fecha) = 4 THEN 'Miércoles'
+                        WHEN DAYOFWEEK(Fecha) = 5 THEN 'Jueves'
+                        WHEN DAYOFWEEK(Fecha) = 6 THEN 'Viernes'
+                        WHEN DAYOFWEEK(Fecha) = 7 THEN 'Sábado'
+                    END AS Metrica,
+                    COUNT(*) AS CantidadAsistencias
+                FROM Asistencia A
+                INNER JOIN Clase C ON A.IdClase = C.Id
+                WHERE C.IdGrupo = ? AND DAYOFWEEK(Fecha) != 1
+                GROUP BY DAYOFWEEK(Fecha)
+                ORDER BY DAYOFWEEK(Fecha);";
+        } else {
+            $datos = [
+                'Enero' => 0,
+                'Febrero' => 0,
+                'Marzo' => 0,
+                'Abril' => 0,
+                'Mayo' => 0,
+                'Junio' => 0,
+                'Julio' => 0,
+                'Agosto' => 0,
+                'Septiembre' => 0,
+                'Octubre' => 0,
+                'Noviembre' => 0,
+                'Diciembre' => 0,
+            ];
+            $sql = "SELECT 
+                        CASE 
+                            WHEN MONTH(Fecha) = 1 THEN 'Enero'
+                            WHEN MONTH(Fecha) = 2 THEN 'Febrero'
+                            WHEN MONTH(Fecha) = 3 THEN 'Marzo'
+                            WHEN MONTH(Fecha) = 4 THEN 'Abril'
+                            WHEN MONTH(Fecha) = 5 THEN 'Mayo'
+                            WHEN MONTH(Fecha) = 6 THEN 'Junio'
+                            WHEN MONTH(Fecha) = 7 THEN 'Julio'
+                            WHEN MONTH(Fecha) = 8 THEN 'Agosto'
+                            WHEN MONTH(Fecha) = 9 THEN 'Septiembre'
+                            WHEN MONTH(Fecha) = 10 THEN 'Octubre'
+                            WHEN MONTH(Fecha) = 11 THEN 'Noviembre'
+                            WHEN MONTH(Fecha) = 12 THEN 'Diciembre'
+                        END AS Metrica,
+                        COUNT(*) AS CantidadAsistencias
+                    FROM Asistencia A
+                    INNER JOIN Clase C ON A.IdClase = C.Id
+                    WHERE C.IdGrupo = ?
+                    GROUP BY MONTH(Fecha)
+                    ORDER BY MONTH(Fecha);";
+        }
+
+        $results = $this->db->query($sql, [$grupoId]);
+
+        if (!$results) {
+            echo json_encode(['valido' => true, 'Data' => $datos]);
+            return;
+        }
+
+        foreach ($results as $key => $result) {
+            $datos[$result->Metrica] = $result->CantidadAsistencias;
+        }
+
+        echo json_encode(['valido' => true, 'Data' => $datos]);
     }
 
     private function get_grupo(string $profesorRfc, string $grupoId) {

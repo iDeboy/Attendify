@@ -54,6 +54,7 @@ $router->post('/api/profesor/crear-grupo', [ProfesorController::class, 'crear_gr
 $router->post('/api/profesor/crear-materia', [ProfesorController::class, 'crear_materia']);
 $router->post('/api/profesor/crear-clase', [ProfesorController::class, 'crear_clase']);
 $router->post('/api/profesor/solicitud', [ProfesorController::class, 'solicitud']);
+$router->post('/api/profesor/grafica', [ProfesorController::class, 'grafica']);
 
 $url = parse_url(htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8'));
 $uri = $url['path'];

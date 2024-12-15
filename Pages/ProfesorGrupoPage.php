@@ -179,13 +179,14 @@
 
         <div class="flex items-center justify-between">
             <h2 class="mb-4 text-xl font-semibold text-H_393737">Resumen</h2>
-            <label class="hidden text-white" for="country">Materia</label>
             <!-- La grafica tendra la opción se mostrar las asistencias que se han obtenido a la semana o al mes -->
-            <select class="select-none text-H_393737 h-10 p-1 rounded cursor-pointer bg-white w-fit min-w-[100px] border-[2.5px] border-[#DAE5E0] shadow-md transition-all ease-in-out" id="country">
-                <option value="">Mostrar por . . .</option>
-                <option value="">Semana</option>
-                <option value="">Mes</option>
-            </select>
+            <div class="flex items-center gap-3">
+                <span>Mostrar por:</span>
+                <select id="filtroGrafica" class="select-none text-H_393737 h-10 p-1 rounded cursor-pointer bg-white w-fit min-w-[100px] border-[2.5px] border-[#DAE5E0] shadow-md transition-all ease-in-out">
+                    <option value="1">Semana</option>
+                    <option value="2">Mes</option>
+                </select>
+            </div>
         </div>
 
         <div class="p-1 mt-2">
@@ -193,7 +194,7 @@
             <div class="p-4 mb-2 bg-white rounded-md shadow-md">
                 <div class="flex items-center justify-center p-1 bg-white">
                     <!-- Para configurar las opciones de la grafica hay que ir grafica.js -->
-                    <canvas id="barChart"></canvas>
+                    <canvas id="barChart" data-id="<?= $Grupo->IdGrupo ?>"></canvas>
                 </div>
             </div>
         </div>
