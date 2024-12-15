@@ -19,8 +19,8 @@ class DefaultController {
 
         $usuario = $_SESSION['Usuario'];
 
-        if (strcmp($usuario->tipo, 'Alumno') === 0) header('Location: alumno');
-        else header('Location: profesor');
+        if (strcmp($usuario->Tipo, 'Alumno') === 0) header('Location: ' . BASE_SITE . '/alumno');
+        else header('Location: ' . BASE_SITE . '/profesor');
         
     }
 }

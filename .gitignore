@@ -4,7 +4,6 @@ composer.lock
 
 ##### Tailwindcss
 tailwind*.exe
-assets/css/Attendify.css
 
 ##### Attendify
 .env

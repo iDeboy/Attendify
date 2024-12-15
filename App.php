@@ -18,9 +18,12 @@
     
     <link rel='stylesheet' href="assets/css/Attendify.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
     <?php foreach ($Scripts as $key => $script): ?>
         <script src="<?php echo $script; ?>" defer></script>
     <?php endforeach; ?>
+
 
 </head>
 

@@ -17,11 +17,11 @@ class AlumnoController {
 
     public function principal() {
 
-        if (needs_login('Logeado', 'login')) return;
+        if (needs_login('Logeado', BASE_SITE . '/login')) return;
 
         $alumno = $_SESSION['Usuario'];
-        $clases = $this->get_clases_hoy($alumno);
-        $solicitudes = $this->get_solicitudes($alumno);
+        $clases = $this->get_clases_hoy($alumno->Id);
+        $solicitudes = $this->get_solicitudes($alumno->Id);
 
         echo $this->renderer->view(
             'Pages/AlumnoPrincipalPage.php',
@@ -30,45 +30,56 @@ class AlumnoController {
         );
     }
 
-    public function grupo(string $grupoId) {
-
-        if (needs_login('Logeado', 'login')) return;
-
-        $grupo = $this->get_grupo($grupoId);
-        if ($grupo === false)
-            return http_response_code(404);
-
-        $alumno = $_SESSION['Usuario'];
-        $grupo = $this->get_grupos($alumno);
-        $asistencias = $this->get_listas_asistencia($alumno);
-
-        echo $this->renderer->view(
-            'Pages/AlumnoGrupoPage.php',
-            ['Alumno' => $alumno, 'Grupo' => $grupo, 'Asistencias' => $asistencias],
-            layout: 'Layouts/AlumnoLayout.php'
-        );
-    }
-
     public function grupos_disponibles() {
 
-        if (needs_login('Logeado', 'login')) return;
+        if (needs_login('Logeado', BASE_SITE . '/login')) return;
 
         $alumno = $_SESSION['Usuario'];
-        $grupos = $this->get_grupos_disponibles($alumno);
+        $grupos = $this->get_grupos_disponibles($alumno->Id);
 
         echo $this->renderer->view(
             'Pages/AlumnoGruposDispPage.php',
             ['Alumno' => $alumno, 'Grupos' => $grupos],
-            layout: 'Layouts/AlumnoLayout.php'
+            layout: 'Layouts/AlumnoLayout.php',
+            scripts: ['assets/js/alumnoGruposDispPage.js']
         );
+    }
+
+    public function inscribirse() {
+
+        if (!is_user_auth('Logeado')) {
+            echo json_encode(['valido' => false, 'error' =>  'No estas logeado.']);
+            return;
+        }
+
+        $alumno = $_SESSION['Usuario'];
+        $body = json_decode(file_get_contents('php://input'), true);
+
+        $grupoId = strtoupper(trim($body['grupoId']));
+        $regex = "/^[0-9][A-Z][0-9][A-Z]$/";
+        if (!preg_match($regex, $grupoId)) {
+            echo json_encode(['valido' => false, 'error' => 'El grupo no es válido.']);
+            return;
+        }
+
+        if (!$this->db->execute(
+            "INSERT INTO InscripcionGrupo(IdGrupo, IdAlumno) VALUES(?,?);",
+            "ss",
+            [$grupoId, $alumno->Id]
+        )) {
+            echo json_encode(['valido' => false, 'error' => 'Hubo un problema interno. Por favor, intentalo más tarde.']);
+            return;
+        }
+
+        echo json_encode(['valido' => true]);
     }
 
     public function grupos_inscrito() {
 
-        if (needs_login('Logeado', 'login')) return;
+        if (needs_login('Logeado', BASE_SITE . '/login')) return;
 
         $alumno = $_SESSION['Usuario'];
-        $grupos = $this->get_grupos($alumno);
+        $grupos = $this->get_grupos($alumno->Id);
 
         echo $this->renderer->view(
             'Pages/AlumnoGruposInsPage.php',
@@ -77,30 +88,105 @@ class AlumnoController {
         );
     }
 
-    private function get_clases_hoy($alumno): array {
+    public function grupo(string $grupoId) {
+
+        if (needs_login('Logeado', BASE_SITE . '/login')) return;
+
+        $alumno = $_SESSION['Usuario'];
+        $grupo = $this->get_grupo($alumno->Id, $grupoId);
+
+        if ($grupo === null) { // No encontrado
+            echo $this->renderer->view("Pages/NotFound.php", [
+                'Error' => 'Recurso no encontrado',
+                'Mensaje' => 'El grupo solicitado no existe.',
+                'Regresar' => BASE_SITE . '/alumno/grupos'
+            ]);
+            return;
+        }
+
+        $clases = $this->get_clases($alumno->Id, $grupo->Id);
+        $clasesVistas = $this->get_clases_vistas($alumno->Id, $grupo->Id);
+
+        echo $this->renderer->view(
+            'Pages/AlumnoGrupoPage.php',
+            [
+                'Alumno' => $alumno,
+                'Grupo' => $grupo,
+                'Clases' => $clases,
+                'ClasesVistas' => $clasesVistas
+            ],
+            layout: 'Layouts/AlumnoLayout.php',
+            scripts: ['assets/js/alumnoGrupo.js']
+        );
+    }
+
+    public function asistencia() {
+
+        if (!is_user_auth('Logeado')) {
+            echo json_encode(['valido' => false, 'error' =>  'No estas logeado.']);
+            return;
+        }
+
+        $alumno = $_SESSION['Usuario'];
+        $body = json_decode(file_get_contents('php://input'), true);
+
+        $claseId = strtoupper(trim($body['claseId']));
+        $regex = "/^\d+$/";
+        if (!preg_match($regex, $claseId)) {
+            echo json_encode(['valido' => false, 'error' => 'La clase no es válida.']);
+            return;
+        }
+        # Se muestra presente aunque ya haya asistencia
+        $sql = "SELECT 
+                    CASE 
+                        WHEN TIMESTAMPDIFF(MINUTE, c.FechaInicio, NOW()) <= 10 AND a.IdAlumno IS NULL THEN 1
+                        WHEN TIMESTAMPDIFF(MINUTE, c.FechaInicio, NOW()) > 10 THEN 0
+                        WHEN a.IdAlumno IS NOT NULL THEN 0
+                    END AS PuedePresente
+                FROM Clase AS c
+                LEFT JOIN Asistencia AS a ON a.IdClase = c.Id AND a.IdAlumno = ?
+                WHERE c.Id = ? AND c.FechaInicio < NOW();";
+
+        $result = $this->db->query($sql, [$alumno->Id, $claseId]);
+        if (!$result) {
+            echo json_encode(['valido' => false, 'error' => 'Hubo un problema interno. Por favor, intentalo más tarde.']);
+            return;
+        }
+
+        $result = $result[0];
+        if ($result->PuedePresente === 0) {
+            echo json_encode(['valido' => false, 'error' => 'No puedes poner asistencia.']);
+            return;
+        }
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        $sql = "INSERT INTO Asistencia (IdClase,IdAlumno,Ip) VALUES(?,?,?);";
+        if (!$this->db->execute($sql, "iss", [$claseId, $alumno->Id, $ip])) {
+            echo json_encode(['valido' => false, 'error' => 'Hubo un problema interno. Por favor, intentalo más tarde.']);
+            return;
+        }
+
+        echo json_encode(['valido' => true]);
+    }
+
+
+    private function get_clases_hoy(string $alumnoId): array {
 
         $result = $this->db->query(
             "SELECT 
-                M.codigoMateria,
-                G.codigo_grupo,
-                M.nombreMateria,
-                C.tema,
-                DATE_FORMAT(C.fecha, '%d-%m-%Y | %H:%i hrs') AS fecha
-            FROM 
-                Clase C
-            INNER JOIN 
-                Materia M ON C.id_materia = M.id_materia
-            INNER JOIN 
-                Grupo G ON C.id_grupo = G.id_grupo
-            INNER JOIN 
-                AlumnosGrupos AG ON G.id_grupo = AG.id_grupo
-            INNER JOIN 
-                Alumno Al ON AG.noControlAlum = Al.noControl
-            WHERE 
-                AG.estado = 'Aceptado'
-                AND Al.noControl = ?;
-            ",
-            [$alumno->id]
+                g.Id AS IdGrupo,
+                m.Nombre AS NombreMateria,
+                c.Tema AS Tema,
+                DATE_FORMAT(c.FechaInicio, '%d-%m-%Y | %H:%i hrs') AS Fecha
+            FROM Clase AS c
+            INNER JOIN Grupo AS g ON c.IdGrupo = g.Id
+            INNER JOIN Materia AS m ON g.IdMateria = m.Id
+            INNER JOIN InscripcionGrupo AS ig ON g.Id = ig.IdGrupo
+            INNER JOIN Alumno AS a ON ig.IdAlumno = a.NoControl
+            LEFT JOIN Asistencia As asist ON c.Id = asist.IdClase AND a.NoControl = asist.IdAlumno
+            WHERE a.NoControl = ? AND DATE(c.FechaInicio) = CURDATE() AND asist.Id IS NULL;",
+            [$alumnoId]
         );
 
         if (!$result) return [];
@@ -108,21 +194,18 @@ class AlumnoController {
         return $result;
     }
 
-    private function get_solicitudes($alumno): array {
+    private function get_solicitudes(string $alumnoId): array {
 
         $result = $this->db->query(
             "SELECT 
-                G.codigo_grupo,
-                G.nombreGrupo,
-                AG.estado
-            FROM 
-                AlumnosGrupos AG
-            INNER JOIN 
-                Grupo G ON AG.id_grupo = G.id_grupo
-            WHERE 
-                AG.noControlAlum = ?;
-            ",
-            [$alumno->id]
+                Grupo.Id AS IdGrupo,
+                Materia.Nombre AS NombreMateria,
+                InscripcionGrupo.Estado AS Estado
+            FROM InscripcionGrupo
+            INNER JOIN Grupo ON InscripcionGrupo.IdGrupo = Grupo.Id
+            INNER JOIN Materia ON Grupo.IdMateria = Materia.Id
+            WHERE InscripcionGrupo.IdAlumno = ?;",
+            [$alumnoId]
         );
 
         if (!$result) return [];
@@ -130,25 +213,20 @@ class AlumnoController {
         return $result;
     }
 
-    private function get_grupos_disponibles($alumno): array {
+    private function get_grupos_disponibles(string $alumnoId): array {
 
         $result = $this->db->query(
             "SELECT 
-                G.id_grupo,
-                G.codigo_grupo,
-                G.nombreGrupo,
-                P.nombre AS nombreProfesor
-            FROM 
-                Grupo G
-            LEFT JOIN 
-                AlumnosGrupos AG ON G.id_grupo = AG.id_grupo AND AG.noControlAlum = ?
-            LEFT JOIN 
-                ProfesorGrupos PG ON G.id_grupo = PG.id_grupo
-            LEFT JOIN 
-                Profesor P ON PG.rfcProf = P.rfc
-            WHERE 
-                AG.noControlAlum IS NULL;",
-            [$alumno->id]
+                g.Id AS Id,
+                m.Nombre AS NombreMateria,
+                p.Nombre AS NombreProfesor, 
+                p.Apellidos AS ApellidosProfesor
+            FROM Grupo AS g
+            INNER JOIN Materia AS m ON g.IdMateria = m.Id
+            INNER JOIN Profesor AS p ON g.RfcProfesor = p.Rfc
+            LEFT JOIN InscripcionGrupo AS ig ON g.Id = ig.IdGrupo AND ig.IdAlumno = ?
+            WHERE ig.IdAlumno IS NULL;",
+            [$alumnoId]
         );
 
         if (!$result) return [];
@@ -156,25 +234,20 @@ class AlumnoController {
         return $result;
     }
 
-    private function get_grupos($alumno): array {
+    private function get_grupos(string $alumnoId): array {
 
         $result = $this->db->query(
             "SELECT 
-                G.id_grupo,
-                G.codigo_grupo,
-                G.nombreGrupo,
-                P.nombre AS nombreProfesor
-            FROM 
-                AlumnosGrupos AG
-            INNER JOIN 
-                Grupo G ON AG.id_grupo = G.id_grupo
-            LEFT JOIN 
-                ProfesorGrupos PG ON G.id_grupo = PG.id_grupo
-            LEFT JOIN 
-                Profesor P ON PG.rfcProf = P.rfc
-            WHERE 
-                AG.noControlAlum = ? AND AG.estado = 'Aceptado';",
-            [$alumno->id]
+                g.Id AS Id,
+                m.Nombre AS NombreMateria,
+                p.Nombre AS NombreProfesor,
+                p.Apellidos AS ApellidosProfesor
+            FROM InscripcionGrupo AS ig
+            INNER JOIN Grupo AS g ON ig.IdGrupo = g.Id
+            INNER JOIN Materia AS m ON g.IdMateria = m.Id
+            INNER JOIN Profesor AS p ON g.RfcProfesor = p.Rfc
+            WHERE ig.IdAlumno = ? AND ig.Estado = 'Aceptado';",
+            [$alumnoId]
         );
 
         if (!$result) return [];
@@ -182,34 +255,25 @@ class AlumnoController {
         return $result;
     }
 
-    private function get_listas_asistencia($alumno): array {
+    private function get_clases(string $alumnoId, string $grupoId): array {
 
         $result = $this->db->query(
-            "SELECT 
-                A.id_asistencia,
-                DATE_FORMAT(C.fecha, '%d-%m-%Y | %H:%i hrs') AS fechaClase,
-                C.tema,
-                G.codigo_grupo,
-                G.nombreGrupo
-            FROM 
-                Asistencia A
-            INNER JOIN 
-                Clase C ON A.id_clase = C.id_clase
-            INNER JOIN 
-                Grupo G ON C.id_grupo = G.id_grupo
-            WHERE 
-                A.noControlAlum = ?
-                AND A.estado = 'Ausente'
-                AND C.fecha <= DATE_ADD(A.fechaAsistencia, INTERVAL 10 MINUTE)
-                AND G.id_grupo IN (
-                    SELECT AG.id_grupo 
-                    FROM AlumnosGrupos AG 
-                    WHERE AG.noControlAlum = ?
-                    AND AG.estado = 'Aceptado'
-                )
-            ORDER BY 
-                C.fecha DESC;",
-            [$alumno->id, $alumno->id]
+            "SELECT
+                c.Id, 
+                DATE_FORMAT(c.FechaInicio, '%d-%m-%Y | %H:%i hrs') AS Fecha,
+                c.Tema AS Tema,
+                CASE 
+                    WHEN c.FechaInicio < NOW() AND TIMESTAMPDIFF(MINUTE, NOW(), c.FechaInicio) <= 10 THEN 'Pendiente'
+                    WHEN c.FechaInicio > NOW() THEN 'Próxima'
+                    ELSE 'Ausente'
+                END AS Estado
+            FROM Clase AS c
+            INNER JOIN Grupo AS g ON c.IdGrupo = g.Id
+            INNER JOIN InscripcionGrupo AS ig ON ig.IdGrupo = g.Id
+            LEFT JOIN Asistencia AS a ON a.IdClase = c.Id AND a.IdAlumno = ig.IdAlumno
+            WHERE a.IdAlumno IS NULL AND ig.IdAlumno = ? AND g.Id = ? AND (c.FechaInicio > NOW() OR TIMESTAMPDIFF(MINUTE, c.FechaInicio, NOW()) <= 10)
+            ORDER BY c.FechaInicio;",
+            [$alumnoId, $grupoId]
         );
 
         if (!$result) return [];
@@ -217,14 +281,49 @@ class AlumnoController {
         return $result;
     }
 
-    private function get_grupo(string $grupoId): object|false {
+    private function get_clases_vistas(string $alumnoId, string $grupoId): array {
 
         $result = $this->db->query(
-            "SELECT * FROM Grupo WHERE id_grupo = ?",
-            [$grupoId]
+            "SELECT 
+                DATE_FORMAT(c.FechaInicio, '%d-%m-%Y | %H:%i hrs') AS Fecha,
+                c.Tema AS Tema,
+                CASE 
+                    WHEN a.IdAlumno IS NOT NULL THEN 'Presente'
+                    WHEN TIMESTAMPDIFF(MINUTE, c.FechaInicio, NOW()) > 10 THEN 'Ausente'
+                    ELSE 'Ausente'
+                END AS Estado
+            FROM Clase AS c
+            INNER JOIN Grupo AS g ON c.IdGrupo = g.Id
+            INNER JOIN InscripcionGrupo AS ig ON ig.IdGrupo = g.Id
+            LEFT JOIN Asistencia AS a ON a.IdClase = c.Id AND a.IdAlumno = ig.IdAlumno
+            WHERE ig.IdAlumno = ? AND g.Id = ?
+                AND c.FechaInicio < NOW() AND TIMESTAMPDIFF(MINUTE, c.FechaInicio, NOW()) > 10 OR a.IdAlumno IS NOT NULL
+            ORDER BY c.FechaInicio DESC;",
+            [$alumnoId, $grupoId]
         );
 
-        if ($result === false || empty($result)) return false;
+        if (!$result) return [];
+
+        return $result;
+    }
+
+    private function get_grupo(string $alumnoId, string $grupoId): ?object {
+
+        $result = $this->db->query(
+            "SELECT
+                g.Id AS Id,
+                m.Nombre AS NombreMateria,
+                p.Nombre AS NombreProfesor, 
+                p.Apellidos AS ApellidosProfesor
+            FROM Grupo AS g
+            INNER JOIN Materia AS m ON g.IdMateria = m.Id
+            INNER JOIN Profesor AS p ON g.RfcProfesor = p.Rfc
+            INNER JOIN InscripcionGrupo AS ig ON g.Id = ig.IdGrupo
+            WHERE g.Id = ? AND ig.IdAlumno = ? AND ig.Estado = 'Aceptado';",
+            [$grupoId, $alumnoId]
+        );
+
+        if ($result === false || empty($result)) return null;
 
         return $result[0];
     }

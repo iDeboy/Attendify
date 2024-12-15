@@ -13,7 +13,7 @@ function dd($value) {
 function d($value) {
     echo '<pre>';
     var_dump($value);
-    echo '<pre>';
+    echo '</pre>';
 }
 
 function template(string $template, array $data = []) {
@@ -31,7 +31,11 @@ function render_template(string $template, array $data = []) {
         template($template, $data);
         $content = ob_get_clean();
     } catch (Throwable $e) {
+
         while (ob_get_level() > $level) ob_end_clean();
+
+        echo("ERROR: " . $e->getFile() . ":" . $e->getLine() . ": " . $e->getMessage());
+        die;
     }
 
     return $content;
@@ -67,7 +71,7 @@ function get_site(): string {
 }
 
 function validarCorreo(string $correo): string|false {
-    $correo = trim($correo);
+    $correo = strtolower(trim($correo));
 
     if (strlen($correo) > 100) return false;
 
@@ -78,6 +82,16 @@ function validarCorreo(string $correo): string|false {
     return $correo;
 }
 
+function validarTelefono(string $telefono): string|false {
+    $regex = "/^[0-9]{10}$/";
+
+    $telefono = preg_replace('/\s+/', '', trim($telefono));
+
+    if (!preg_match($regex, $telefono)) return false;
+
+    return $telefono;
+}
+
 function validarPassword(string $password, string $confirmPassword): string|false {
     if (empty($password) || empty($confirmPassword)) return false;
 
@@ -85,3 +99,5 @@ function validarPassword(string $password, string $confirmPassword): string|fals
 
     return $password;
 }
+
+require_once 'Core/constants.php';

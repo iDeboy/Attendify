@@ -17,7 +17,7 @@ class LoginController {
 
     public function index() {
 
-        if (is_user_auth('Logeado')) return header('Location: .');
+        if (is_user_auth('Logeado')) return header('Location: ' . BASE_SITE . '/');
 
         echo $this->renderer->view('Pages/LoginPage.php');
     }
@@ -36,7 +36,7 @@ class LoginController {
             goto end;
         }
 
-        $passwordHash = $usuario->passwordHash;
+        $passwordHash = $usuario->PasswordHash;
         if (!$this->verificarPassword($_POST['password'], $passwordHash)) {
             $error = 'Credenciales inválidas. Por favor, intente nuevamente.';
             goto end;
@@ -45,7 +45,7 @@ class LoginController {
         end:
         if ($error !== null) {
 
-            header('Location: registro', response_code: 400);
+            header('Location: ' . BASE_SITE . '/registro', response_code: 400);
             echo $this->renderer->view(
                 'Pages/LoginPage.php',
                 ['Error' => $error]
@@ -57,7 +57,7 @@ class LoginController {
         $_SESSION['Logeado'] = true;
         $_SESSION['Usuario'] = $usuario;
 
-        header('Location: .');
+        header('Location: ' . BASE_SITE . '/');
     }
 
     private function validarUsuario(string $tipoUsuario): string|false {
@@ -74,13 +74,13 @@ class LoginController {
         $correo = validarCorreo($correo);
 
         if (strcmp($tipoUsuario, 'Alumno') === 0)
-            $sql = "SELECT 'Alumno' AS tipo, noControl AS id, nombre, apellidos, telefono, correoAlum AS correo, passwordHash 
+            $sql = "SELECT 'Alumno' AS Tipo, NoControl AS Id, Nombre, Apellidos, Telefono, Correo, PasswordHash 
                     FROM Alumno 
-                    WHERE correoAlum = ?;";
+                    WHERE Correo = ?;";
         else
-            $sql = "SELECT 'Profesor' AS tipo, rfc AS id, nombre, apellidos, telefono, correoProf As correo, passwordHash
+            $sql = "SELECT 'Profesor' AS Tipo, Rfc AS Id, Nombre, Apellidos, Telefono, Correo, PasswordHash
                     FROM Profesor 
-                    WHERE correoProf = ?;";
+                    WHERE Correo = ?;";
 
         $result = $this->db->query($sql, [$correo]);
 
@@ -100,6 +100,6 @@ class LoginController {
         session_unset();
         session_destroy();
 
-        header('Location: login');
+        header('Location: ' . BASE_SITE . '/login');
     }
 }

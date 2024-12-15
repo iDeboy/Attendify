@@ -1,5 +1,5 @@
 <div class="max-w-4xl p-6 mx-auto mb-4 rounded-md shadow-md bg-H_EBF3F0 animate-fade-in">
-    <h2 class="text-xl font-semibold text-H_393737">Bienvenid@ <?= $Alumno->nombre ?>, ¡Hoy es un gran día para aprender!</h2>
+    <h2 class="text-xl font-semibold text-H_393737">Bienvenid@ <?= $Alumno->Nombre ?>, ¡Hoy es un gran día para aprender!</h2>
 </div>
 
 <div class="max-w-4xl p-6 mx-auto rounded-md shadow-md bg-H_EBF3F0 animate-fade-in">
@@ -18,11 +18,11 @@
 
                 <?php foreach ($Clases as $key => $clase): ?>
                     <div class="p-4 mb-2 bg-white rounded-md shadow-md">
-                        <h3 class="mb-2 font-bold text-H_455B3C"><?= "$clase->codigoMateria $clase->codigo_grupo | $clase->nombreMateria" ?></h3>
-                        <p class="mb-2 text-H_4B4848"><?= $clase->tema ?></p>
+                        <h3 class="mb-2 font-bold text-H_455B3C"><?= "$clase->IdGrupo | $clase->NombreMateria" ?></h3>
+                        <p class="mb-2 text-H_4B4848"><?= $clase->Tema ?></p>
                         <div class="flex items-center text-H_393737">
                             <span class="mr-2 text-xl mdi mdi-calendar-month"></span>
-                            <span><?= $clase->fecha ?></span>
+                            <span><?= $clase->Fecha ?></span>
                         </div>
                     </div>
 
@@ -54,16 +54,16 @@
                         <div class="flex items-center">
                             <span class="mr-2 text-xl mdi mdi-account-group text-H_393737"></span>
                             <!-- Verificar como obtenemos la materia a la que fue enviada la solicitud -->
-                            <span class=" text-H_393737"><?= "$solicitud->codigo_grupo | $solicitud->nombreGrupo" ?></span>
+                            <span class=" text-H_393737"><?= "$solicitud->IdGrupo | $solicitud->NombreMateria" ?></span>
                         </div>
                         <div class="flex items-center">
                             <span class="mr-2 text-H_393737">Estado:</span>
-                            <?php if (strcmp($solicitud->estado, 'Pendiente') === 0): ?>
+                            <?php if (strcmp($solicitud->Estado, 'Pendiente') === 0): ?>
                                 <span class="text-[#e9cf11] font-semibold">● pendiente</span>
-                            <?php elseif (strcmp($solicitud->estado, 'Aceptado') === 0): ?>
-                                <span class="hidden font-semibold text-H_6FCF97">● aceptado</span>
-                            <?php elseif (strcmp($solicitud->estado, 'Rechazado') === 0): ?>
-                                <span class="text-[#d13e2c] font-semibold hidden">● rechazado</span>
+                            <?php elseif (strcmp($solicitud->Estado, 'Aceptado') === 0): ?>
+                                <span class="font-semibold text-H_6FCF97">● aceptado</span>
+                            <?php elseif (strcmp($solicitud->Estado, 'Rechazado') === 0): ?>
+                                <span class="text-[#d13e2c] font-semibold">● rechazado</span>
                             <?php endif; ?>
                         </div>
 

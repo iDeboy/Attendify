@@ -17,7 +17,7 @@ class RegistroController {
 
     public function index() {
 
-        if (is_user_auth('Logeado')) return header('Location: .');
+        if (is_user_auth('Logeado')) return header("Location: " . BASE_SITE . '/');
 
         echo $this->renderer->view('Pages/RegistroPage.php', scripts: ['assets/js/registro.js']);
     }
@@ -50,7 +50,7 @@ class RegistroController {
 
         $correo = $this->validarCorreo($tipoUsuario, $_POST['correo']);
         if (!$correo) {
-            $errors[] = 'Correo inválido. Por favor, ingrese otro.';
+            $errors[] = 'Correo ya registrado o inválido. Por favor, inténtalo de nuevo.';
         }
 
         $password = $this->validarPassword($_POST['password'], $_POST['confirmPassword']);
@@ -58,16 +58,16 @@ class RegistroController {
             $errors[] = 'Las contraseñas no coinciden. Por favor, inténtalo de nuevo.';
         }
 
-        $telefono = $this->validarTelefono($_POST['telefono']);
+        $telefono = $this->validarTelefono($tipoUsuario, $_POST['telefono']);
         if (!$telefono) {
-            $errors[] = 'El teléfono tiene un formato inválido. Por favor, inténtalo de nuevo.';
+            $errors[] = 'El teléfono ya está registrado o tiene un formato inválido. Por favor, inténtalo de nuevo.';
         }
 
         end:
 
         if (count($errors) !== 0) {
 
-            header('Location: registro', response_code: 400);
+            header('Location: ' . BASE_SITE . '/registro', response_code: 400);
             echo $this->renderer->view(
                 'Pages/RegistroPage.php',
                 ['Errors' => $errors],
@@ -81,7 +81,7 @@ class RegistroController {
             "ssssss",
             [$id, $nombres, $apellidos, $telefono, $correo, password_hash($password, PASSWORD_BCRYPT)]
         )) {
-            header('Location: registro', response_code: 500);
+            header('Location: ' . BASE_SITE . '/registro', response_code: 500);
             echo $this->renderer->view(
                 'Pages/RegistroPage.php',
                 ['Errors' => ["No se pudo registrar el $tipoUsuario. Por favor, inténtalo más tarde."]],
@@ -90,7 +90,7 @@ class RegistroController {
             return;
         }
 
-        header('Location: login');
+        header('Location: ' . BASE_SITE . '/login');
     }
 
     private function validarUsuario(string $tipoUsuario): string|false {
@@ -104,7 +104,7 @@ class RegistroController {
 
     private function validarId(string $tipoUsuario, string $id): string|false {
 
-        if (strcmp($tipoUsuario, 'Alumno') === 0) $regex = '/^([A-Z]\d{8,19}|\d{8,20})$/';
+        if (strcmp($tipoUsuario, 'Alumno') === 0) $regex = '/^[A-Z]?[0-9]{8}$/';
         else $regex = '/^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{2}[0-9A]$/';
 
         $id = strtoupper($id);
@@ -112,9 +112,9 @@ class RegistroController {
         if (!preg_match($regex, $id)) return false;
 
         if (strcmp($tipoUsuario, 'Alumno') === 0)
-            $sql = "SELECT noControl FROM Alumno WHERE noControl = ?;";
+            $sql = "SELECT NoControl FROM Alumno WHERE NoControl = ?;";
         else
-            $sql = "SELECT rfc FROM Profesor WHERE rfc = ?;";
+            $sql = "SELECT Rfc FROM Profesor WHERE Rfc = ?;";
 
         $result = $this->db->query($sql, [$id]);
 
@@ -125,9 +125,9 @@ class RegistroController {
 
     private function validarNombres(string $nombres): string|false {
 
-        $regex = "/^[a-zA-ZÑ ]{3,50}$/";
+        $regex = "/^[A-Za-zÑÁÉÍÓÚñáéíóú ]{3,50}$/";
 
-        $nombres = trim($nombres);
+        $nombres = ucwords(trim($nombres));
 
         if (!preg_match($regex, $nombres)) return false;
 
@@ -136,9 +136,9 @@ class RegistroController {
 
     private function validarApellidos(string $apellido): string|false {
 
-        $regex = "/^[a-zA-ZÑ ]{3,50}$/";
+        $regex = "/^[A-Za-zÑÁÉÍÓÚñáéíóú ]{3,50}$/";
 
-        $apellido = trim($apellido);
+        $apellido = ucwords(trim($apellido));
 
         if (!preg_match($regex, $apellido)) return false;
 
@@ -149,10 +149,9 @@ class RegistroController {
 
         $correo = validarCorreo($correo);
 
-        if (strcmp($tipoUsuario, 'Alumno') === 0)
-            $sql = "SELECT correoAlum FROM Alumno WHERE correoAlum = ?;";
-        else
-            $sql = "SELECT correoProf FROM Profesor WHERE correoProf = ?;";
+        if (!$correo) return false;
+
+        $sql = "SELECT Correo FROM $tipoUsuario WHERE Correo = ?;";
 
         $result = $this->db->query($sql, [$correo]);
 
@@ -165,13 +164,17 @@ class RegistroController {
         return validarPassword($password, $confirmPassword);
     }
 
-    private function validarTelefono(string $telefono): string|false {
+    private function validarTelefono(string $tipoUsuario, string $telefono): string|false {
 
-        $regex = "/^\d{10,15}$/i";
+        $telefono = validarTelefono($telefono);
 
-        $telefono = trim($telefono);
+        if (!$telefono) return false;
 
-        if (!preg_match($regex, $telefono)) return false;
+        $sql = "SELECT Telefono FROM $tipoUsuario WHERE Telefono = ?;";
+
+        $result = $this->db->query($sql, [$telefono]);
+
+        if (!empty($result)) return false;
 
         return $telefono;
     }

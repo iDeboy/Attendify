@@ -1,17 +1,16 @@
-<div class="w-screen h-screen bg-H_EBF3F0 flex items-center justify-center">
+<div class="flex items-center justify-center w-screen h-screen bg-H_EBF3F0">
     <div class="text-center">
         <div class="relative inline-block mb-6">
-            <img 
-                class="h-40 w-40 object-cover rounded-full border-4 border-H_519d71"
-                src="assets/img/pageerror.png" 
+            <img
+                class="select-none border-H_519d71"
+                src="assets/img/pageerror.png"
                 alt="Error Icon">
-            <div class="absolute inset-0 rounded-full shadow-inner"></div>
         </div>
-        <h1 class="text-4xl font-bold text-H_393737 mb-4">Recurso no encontrado</h1>
-        <p class="text-H_618762 text-lg mb-6">{{ .not_found }}</p>
-        <button 
-            class="boton w-40 py-2 rounded-md hover:bg-H_38813B transition-all" >
+        <h1 class="mb-4 text-4xl font-bold text-H_393737"><?= $Error ?></h1>
+        <p class="mb-6 text-lg text-H_618762"><?= $Mensaje ?></p>
+        <a href="<?= $Regresar ?>"
+            class="block w-40 py-2 transition-all rounded-md boton hover:bg-H_38813B">
             Regresar
-        </button>
+        </a>
     </div>
 </div>
