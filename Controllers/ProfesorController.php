@@ -7,7 +7,6 @@ namespace Controllers;
 use Abstractions\DbContext;
 use Abstractions\Renderer;
 use DateTime;
-use DateTimeZone;
 use Exception;
 
 class ProfesorController {
@@ -37,11 +36,26 @@ class ProfesorController {
         if (needs_login('Logeado', BASE_SITE . '/login')) return;
 
         $profesor = $_SESSION['Usuario'];
-        $grupos = $this->get_grupos($profesor);
+
+        $filtro = null;
+        if (isset($_GET['materia'])) {
+            $filtro = htmlspecialchars($_GET['materia']);
+
+            if (strlen(trim($filtro)) === 0) {
+                header('Location: ' . BASE_SITE . "/profesor/grupos");
+                return;
+            }
+        }
+
+        $grupos = $this->get_grupos($profesor->Id, $filtro);
 
         echo $this->renderer->view(
             'Pages/ProfesorGruposCreaPage.php',
-            ['Profesor' => $profesor, 'Grupos' => $grupos],
+            [
+                'Profesor' => $profesor,
+                'Grupos' => $grupos,
+                'Filtro' => $filtro
+            ],
             layout: 'Layouts/ProfesorLayout.php'
         );
     }
@@ -77,7 +91,17 @@ class ProfesorController {
             return;
         }
 
-        $alumnos = $this->get_alumnos($grupoId);
+        $filtro = null;
+        if (isset($_GET['alumno'])) {
+            $filtro = htmlspecialchars($_GET['alumno']);
+
+            if (strlen(trim($filtro)) === 0) {
+                header('Location: ' . BASE_SITE . "/profesor/grupos/$grupo->IdGrupo");
+                return;
+            }
+        }
+
+        $alumnos = $this->get_alumnos($grupoId, $filtro);
         $solicitudes = $this->get_solicitudes_pendientes($grupoId);
         $clases = $this->get_clases($grupoId);
 
@@ -88,7 +112,8 @@ class ProfesorController {
                 'Grupo' => $grupo,
                 'Alumnos' => $alumnos,
                 'Solicitudes' => $solicitudes,
-                'Clases' => $clases
+                'Clases' => $clases,
+                'Filtro' => $filtro
             ],
             layout: 'Layouts/ProfesorLayout.php',
             scripts: ['assets/js/profesorGrupo.js', 'assets/js/grafica.js']
@@ -451,7 +476,10 @@ class ProfesorController {
         return $result[0];
     }
 
-    private function get_alumnos(string $grupoId) {
+    private function get_alumnos(string $grupoId, ?string $alumnoNombre = null) {
+
+        $condicion = $alumnoNombre === null ? '' : "AND LOWER(a.Nombre) LIKE '%" . strtolower($this->db->escape_string($alumnoNombre)) . "%'";
+
         $sql =
             "SELECT 
                 a.Nombre AS Nombre,
@@ -459,10 +487,10 @@ class ProfesorController {
                 COUNT(asist.Id) AS Asistencias
             FROM InscripcionGrupo ig
             INNER JOIN Alumno a ON ig.IdAlumno = a.NoControl
-            INNER JOIN Clase AS c ON ig.IdGrupo = c.IdGrupo
+            LEFT JOIN Clase AS c ON ig.IdGrupo = c.IdGrupo
             LEFT JOIN Asistencia AS asist ON c.Id = asist.IdClase AND asist.IdAlumno = a.NoControl
-            WHERE ig.IdGrupo = ? AND ig.Estado = 'Aceptado'
-            GROUP BY a.Nombre, a.Apellidos, a.NoControl
+            WHERE ig.IdGrupo = ? AND ig.Estado = 'Aceptado' $condicion
+            GROUP BY a.Nombre, a.Apellidos, a.NoControl 
             HAVING COUNT(a.NoControl) > 0
             ORDER BY a.Apellidos ASC, a.Nombre ASC, a.NoControl ASC;";
 
@@ -545,7 +573,9 @@ class ProfesorController {
         return $result;
     }
 
-    private function get_grupos($profesor): array {
+    private function get_grupos(string $profesorId, ?string $materiaNombre): array {
+
+        $condicion = $materiaNombre === null ? '' : "AND LOWER(m.Nombre) LIKE '%" . strtolower($this->db->escape_string($materiaNombre)) . "%'";
 
         $sql =
             "SELECT 
@@ -555,11 +585,11 @@ class ProfesorController {
             FROM Grupo g
             JOIN Materia m ON g.IdMateria = m.Id
             LEFT JOIN InscripcionGrupo ig ON g.Id = ig.IdGrupo AND ig.Estado = 'Aceptado'
-            WHERE g.RfcProfesor = ?
+            WHERE g.RfcProfesor = ? $condicion
             GROUP BY g.Id, m.Nombre
             ORDER BY g.Id;";
 
-        $result = $this->db->query($sql, [$profesor->Id]);
+        $result = $this->db->query($sql, [$profesorId]);
 
         if (!$result) return [];
 

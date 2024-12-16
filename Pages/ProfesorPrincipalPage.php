@@ -17,13 +17,16 @@
                 <?php foreach ($Solicitudes as $key => $solicitud): ?>
 
                     <div class="flex items-center justify-between p-4 mb-2 bg-white rounded-md shadow-md">
-                        <div class="flex items-center">
-                            <span class="mr-2 text-xl mdi mdi-account-group text-H_393737"></span>
+                        <div class="flex items-center gap-2">
+                            <span class="flex items-center justify-center mr-3 text-sm font-bold text-white bg-red-600 rounded-full select-none size-6">
+                                <?= $solicitud->NumeroInscripciones ?>
+                            </span>
+                            <span class="text-xl mdi mdi-account-group text-H_393737"></span>
                             <!-- Mostrar el numero de solicitudes de ingreso -->
-                            <span class=" text-H_393737"><?= "$solicitud->IdGrupo | $solicitud->NombreMateria : $solicitud->NumeroInscripciones" ?></span>
+                            <span class=" text-H_393737"><?= "$solicitud->IdGrupo | $solicitud->NombreMateria" ?></span>
                         </div>
                     </div>
-                    
+
                 <?php endforeach; ?>
 
             <?php else: ?>

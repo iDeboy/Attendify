@@ -65,22 +65,7 @@
     <div class="p-4 mb-6 rounded-md shadow bg-H_DAE5E0">
 
         <h2 class="mb-4 text-xl font-semibold text-H_393737">Alumnos inscritos</h2>
-        <div class="w-full p-1 rounded-lg">
-            <!-- Buscador - Se pueden buscar los alumnos inscritos al grupo correspondiente -->
-            <div class="flex">
-                <div class="flex items-center justify-center w-10 p-1 bg-white border-r border-gray-200 rounded-tl-lg rounded-bl-lg">
-                    <span class="text-xl pointer-events-none mdi mdi-magnify text-H_393737"></span>
-                </div>
-                <!-- Aqui se encuentra la caja de texto del buscador -->
-                <input type="text"
-                    class="relative w-full pl-2 text-base bg-white text-H_393737 outline-0 tooltip-trigger"
-                    placeholder="Buscar . . ."
-                    id=""
-                    title="Busca al alumno por su nombre completo">
-                <!-- Boton de buscar -->
-                <input type="button" value="Buscar" class=" bg-[#779688] p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-[#DAE5E0] hover:text-H_618762 transition-colors">
-            </div>
-        </div>
+        <?= render_template('Components/Buscador.php', ['Name' => 'alumno', 'Value' => $Filtro]) ?>
 
         <div class="h-[280px] overflow-y-auto p-1 mt-2">
 
