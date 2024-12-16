@@ -35,11 +35,26 @@ class AlumnoController {
         if (needs_login('Logeado', BASE_SITE . '/login')) return;
 
         $alumno = $_SESSION['Usuario'];
-        $grupos = $this->get_grupos_disponibles($alumno->Id);
+
+        $filtro = null;
+        if (isset($_GET['materia'])) {
+            $filtro = htmlspecialchars($_GET['materia']);
+
+            if (strlen(trim($filtro)) === 0) {
+                header('Location: ' . BASE_SITE . "/alumno/grupos-disponibles");
+                return;
+            }
+        }
+
+        $grupos = $this->get_grupos_disponibles($alumno->Id, $filtro);
 
         echo $this->renderer->view(
             'Pages/AlumnoGruposDispPage.php',
-            ['Alumno' => $alumno, 'Grupos' => $grupos],
+            [
+                'Alumno' => $alumno,
+                'Grupos' => $grupos,
+                'Filtro' => $filtro
+            ],
             layout: 'Layouts/AlumnoLayout.php',
             scripts: ['assets/js/alumnoGruposDispPage.js']
         );
@@ -79,11 +94,26 @@ class AlumnoController {
         if (needs_login('Logeado', BASE_SITE . '/login')) return;
 
         $alumno = $_SESSION['Usuario'];
-        $grupos = $this->get_grupos($alumno->Id);
+
+        $filtro = null;
+        if (isset($_GET['materia'])) {
+            $filtro = htmlspecialchars($_GET['materia']);
+
+            if (strlen(trim($filtro)) === 0) {
+                header('Location: ' . BASE_SITE . "/alumno/grupos");
+                return;
+            }
+        }
+
+        $grupos = $this->get_grupos($alumno->Id, $filtro);
 
         echo $this->renderer->view(
             'Pages/AlumnoGruposInsPage.php',
-            ['Alumno' => $alumno, 'Grupos' => $grupos],
+            [
+                'Alumno' => $alumno,
+                'Grupos' => $grupos,
+                'Filtro' => $filtro
+            ],
             layout: 'Layouts/AlumnoLayout.php'
         );
     }
@@ -213,7 +243,9 @@ class AlumnoController {
         return $result;
     }
 
-    private function get_grupos_disponibles(string $alumnoId): array {
+    private function get_grupos_disponibles(string $alumnoId, ?string $materiaNombre): array {
+
+        $condicion = $materiaNombre === null ? '' : "AND LOWER(m.Nombre) LIKE '%" . strtolower($this->db->escape_string($materiaNombre)) . "%'";
 
         $result = $this->db->query(
             "SELECT 
@@ -225,7 +257,7 @@ class AlumnoController {
             INNER JOIN Materia AS m ON g.IdMateria = m.Id
             INNER JOIN Profesor AS p ON g.RfcProfesor = p.Rfc
             LEFT JOIN InscripcionGrupo AS ig ON g.Id = ig.IdGrupo AND ig.IdAlumno = ?
-            WHERE ig.IdAlumno IS NULL;",
+            WHERE ig.IdAlumno IS NULL $condicion;",
             [$alumnoId]
         );
 
@@ -234,7 +266,9 @@ class AlumnoController {
         return $result;
     }
 
-    private function get_grupos(string $alumnoId): array {
+    private function get_grupos(string $alumnoId, ?string $materiaNombre): array {
+
+        $condicion = $materiaNombre === null ? '' : "AND LOWER(m.Nombre) LIKE '%" . strtolower($this->db->escape_string($materiaNombre)) . "%'";
 
         $result = $this->db->query(
             "SELECT 
@@ -246,7 +280,7 @@ class AlumnoController {
             INNER JOIN Grupo AS g ON ig.IdGrupo = g.Id
             INNER JOIN Materia AS m ON g.IdMateria = m.Id
             INNER JOIN Profesor AS p ON g.RfcProfesor = p.Rfc
-            WHERE ig.IdAlumno = ? AND ig.Estado = 'Aceptado';",
+            WHERE ig.IdAlumno = ? AND ig.Estado = 'Aceptado' $condicion;",
             [$alumnoId]
         );
 

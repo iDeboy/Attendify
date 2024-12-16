@@ -34,11 +34,9 @@
             <div class="invisible mt-8"></div>
 
             <?php if (isset($Errors)): ?>
-              <ul class="flex flex-col gap-2 pl-3.5 mb-2 list-disc text-red-400 text-xs">
                 <?php foreach ($Errors as $key => $error): ?>
-                  <li><?php echo $error ?></li>
+                  <?= render_template('Components/Error.php', ['Error' => $error]) ?>
                 <?php endforeach; ?>
-              </ul>
             <?php endif; ?>
 
             <p id="textoId" class="texto text-[16px] text-H_393737">No. Control</p>

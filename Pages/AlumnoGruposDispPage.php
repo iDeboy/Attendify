@@ -1,21 +1,6 @@
 <div class="max-w-4xl p-0 mx-auto mb-4 rounded-md shadow-md bg-H_EBF3F0 animate-fade-in">
     <div class="flex items-center justify-center p-5">
-        <div class="w-full p-1 rounded-lg">
-            <!-- Buscador - Se podra buscar un grupo por su nombre {{Grupo.nombreGrupo}}, solamente deben aparecer los grupos donde el alumno no este inscrito o que lo tenga pendiente, es decir, solo apareceran los disponibles a inscribir. -->
-            <div class="flex">
-                <div class="flex items-center justify-center w-10 p-1 bg-white border-r border-gray-200 rounded-tl-lg rounded-bl-lg">
-                    <span class="text-xl pointer-events-none mdi mdi-magnify text-H_393737"></span>
-                </div>
-                <!-- Aqui se encuentra la caja de texto del buscador -->
-                <input type="text"
-                    class="relative w-full pl-2 text-base bg-white text-H_393737 outline-0 tooltip-trigger"
-                    placeholder="Buscar . . ."
-                    id=""
-                    title="Busca el grupo por su nombre o materia">
-                <!-- Boton de buscar -->
-                <input type="button" value="Buscar" class=" bg-[#779688] p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-[#DAE5E0] hover:text-H_618762 transition-colors">
-            </div>
-        </div>
+        <?= render_template('Components/Buscador.php', ['Name' => 'materia', 'Value' => $Filtro]) ?>
     </div>
 </div>
 

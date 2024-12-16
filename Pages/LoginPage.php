@@ -27,12 +27,12 @@
 
           <form action="login" method="post">
 
-            <?php echo render_template("Components/SeleccionAlumnoMaestro.php") ?>
+            <?= render_template("Components/SeleccionAlumnoMaestro.php") ?>
 
             <div class="invisible mt-8"></div>
 
             <?php if (isset($Error)): ?>
-              <span class="mb-2 inline-block text-red-400 text-xs"><?= $Error ?></span>
+              <?= render_template('Components/Error.php', ['Error' => $Error]) ?>
             <?php endif; ?>
             
             <div class="border-b-2 border-gray-400 contenedor_texto">

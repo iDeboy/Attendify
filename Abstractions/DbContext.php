@@ -24,6 +24,10 @@ final class DbContext {
         $this->db->set_charset("utf8mb4");
     }
 
+    public function escape_string(string $string): string {
+        return $this->db->real_escape_string($string);
+    }
+
     public function begin_transaction(int $flags = 0, ?string $name = null): void {
         $this->db->autocommit(false);
         $this->db->begin_transaction($flags, $name);
