@@ -34,15 +34,15 @@
             <div class="invisible mt-8"></div>
 
             <?php if (isset($Errors)): ?>
-                <?php foreach ($Errors as $key => $error): ?>
-                  <?= render_template('Components/Error.php', ['Error' => $error]) ?>
-                <?php endforeach; ?>
+              <?php foreach ($Errors as $key => $error): ?>
+                <?= render_template('Components/Error.php', ['Error' => $error]) ?>
+              <?php endforeach; ?>
             <?php endif; ?>
 
             <p id="textoId" class="texto text-[16px] text-H_393737">No. Control</p>
 
             <!-- guardar identificación -->
-            <input type="text" class="caja_registro" name="id" required maxlength="20" >
+            <input type="text" class="caja_registro" name="id" required maxlength="20">
 
             <p class="texto mt-5 text-[16px] text-H_393737">Nombres</p>
 
@@ -87,13 +87,16 @@
             <!-- guardar teléfono -->
             <input type="tel" class="caja_registro" name="telefono" required maxlength="15">
 
-
             <!-- boton de registrar -->
             <button type="submit" class="boton mt-14">REGISTRAR</button>
 
           </form>
 
         </div>
+
+        <footer class="flex items-center justify-center h-20">
+          2024 &copy; Todos los créditos a los&nbsp;<a href="acerca-de#integrantes" class="block !select-text !p-0 transicion size-fit"><b>creadores</b></a>.
+        </footer>
 
       </div>
 

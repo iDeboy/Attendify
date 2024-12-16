@@ -21,6 +21,9 @@ class DefaultController {
 
         if (strcmp($usuario->Tipo, 'Alumno') === 0) header('Location: ' . BASE_SITE . '/alumno');
         else header('Location: ' . BASE_SITE . '/profesor');
-        
+    }
+
+    public function acerca_de() {
+        echo $this->renderer->view('Pages/AcercaDePage.php');
     }
 }

@@ -28,6 +28,7 @@ $env->load();
 $router = $host->services->get_required_service(Router::class);
 
 $router->get('/', [DefaultController::class, 'index']);
+$router->get('/acerca-de', [DefaultController::class, 'acerca_de']);
 
 $router->get('/pruebas', [PruebasController::class, 'index']);
 $router->get('/login', [LoginController::class, 'index']);

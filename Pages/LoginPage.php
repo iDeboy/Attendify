@@ -34,7 +34,7 @@
             <?php if (isset($Error)): ?>
               <?= render_template('Components/Error.php', ['Error' => $Error]) ?>
             <?php endif; ?>
-            
+
             <div class="border-b-2 border-gray-400 contenedor_texto">
 
               <img class="icon" src="assets/img/email.svg" alt="email">
@@ -62,17 +62,23 @@
             <!-- checkbox para mostrar contraseña - hacer que al marcarla se visualice y al desmarcar se vuelva a ocular -->
             <?php echo render_template("Components/Checkbox.php", ["Texto" => "Mostrar Contraseña"]) ?>
 
+
             <!-- boton de iniciar sesión -->
             <button type="submit" class="mt-14 boton">INICIAR SESIÓN</button>
 
-            <p class="texto mt-2 text-[16px] text-H_393737">¿No tienes una cuenta?
-              <!-- vinvulo para mandar al registro -->
-              <a href="registro" class="text-H_A7E08E hover:text-H_618762 texto">Regístrate</a>
-            </p>
 
           </form>
 
+          <p class="texto mt-2 text-[16px] text-H_393737">¿No tienes una cuenta?
+            <!-- vinvulo para mandar al registro -->
+            <a href="registro" class="text-H_A7E08E hover:text-H_618762 texto">Regístrate</a>
+          </p>
+
         </div>
+
+        <footer class="flex items-center justify-center h-20">
+          2024 &copy; Todos los créditos a los&nbsp;<a href="acerca-de#integrantes" class="block !select-text !p-0 transicion size-fit"><b>creadores</b></a>.
+        </footer>
 
       </div>
 
