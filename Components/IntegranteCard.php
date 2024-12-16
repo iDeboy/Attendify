@@ -5,7 +5,7 @@
         <h2 class="mt-2 text-xl font-bold text-H_393737"><?= $Nombre ?></h2>
         <h3 class="mt-2 text-lg font-bold text-H_393737">No. Control: <?= $NoControl ?></h3>
         <span class="px-2 py-1 text-sm text-black rounded"><?= $Rol ?></span>
-        <div class="flex items-center justify-center mt-2 space-x-2">
+        <div class="flex items-center justify-center mt-2 space-x-2 select-none">
             <a href="<?= $Github ?>" target="_blank" class="flex items-center space-x-2 font-medium text-gray-600">
                 <span class="text-xl mdi mdi-github"></span>
                 <span>Perfil GitHub</span>

@@ -89,7 +89,7 @@
 
   <div class="max-w-5xl my-2.5 text-center">
     <h2 class="mb-4 text-xl font-bold text-H_393737">Encontrarás nuestro proyecto en GitHub haciendo clic en:</h2>
-    <div class="flex items-center justify-center mt-2 space-x-2">
+    <div class="flex items-center justify-center mt-2 space-x-2 select-none">
       <a href="https://github.com/iDeboy/Attendify.git" target="_blank" class="flex items-center space-x-2 font-medium text-gray-600">
         <span class="text-xl mdi mdi-github"></span>
         <span class="text-xl">Proyecto Attendify</span>
