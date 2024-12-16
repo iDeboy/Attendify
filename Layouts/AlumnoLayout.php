@@ -49,7 +49,7 @@
                         </div>
                     </div>
 
-                    <a href="acerca-de" class="block transicion text-[18px]">
+                    <a href="acerca-de#integrantes" class="block transicion text-[18px]">
                         <span class="mdi mdi-information mr-2 select-none text-[20px]"></span>
                         Acerca de
                     </a>
