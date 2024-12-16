@@ -31,6 +31,11 @@
                         Grupos
                     </a>
 
+                    <a href="acerca-de" class="block transicion text-[18px]">
+                        <span class="mdi mdi-information mr-2 select-none text-[20px]"></span>
+                        Acerca de
+                    </a>
+
                     <!-- Regresar al apartado de iniciar sesión -->
                     <form action="logout" method="post">
                         <button type="submit" class="block transicion text-[18px] w-full text-start">
