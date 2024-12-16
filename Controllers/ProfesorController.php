@@ -462,6 +462,8 @@ class ProfesorController {
             INNER JOIN Clase AS c ON ig.IdGrupo = c.IdGrupo
             LEFT JOIN Asistencia AS asist ON c.Id = asist.IdClase AND asist.IdAlumno = a.NoControl
             WHERE ig.IdGrupo = ? AND ig.Estado = 'Aceptado'
+            GROUP BY a.Nombre, a.Apellidos, a.NoControl
+            HAVING COUNT(a.NoControl) > 0
             ORDER BY a.Apellidos ASC, a.Nombre ASC, a.NoControl ASC;";
 
         $result = $this->db->query($sql, [$grupoId]);
